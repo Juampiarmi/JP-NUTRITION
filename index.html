@@ -21,7 +21,7 @@
 :root{--bg:#0B0F17;--bg2:#0E1420;--panel:#131B2A;--line:rgba(255,255,255,.08);--line2:rgba(255,255,255,.12);--cyan:#38BDF8;--cyan-soft:rgba(56,189,248,.1);--cyan-edge:rgba(56,189,248,.2);--fire:#F97316;--fire-hot:#FF5E1E;--fire-soft:rgba(249,115,22,.1);--danger:#EF4444;--title:#FFFFFF;--text:#94A3B8;--micro:#64748B;--safe-top:env(safe-area-inset-top,0px);--safe-bot:env(safe-area-inset-bottom,0px)}
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 html,body{background:var(--bg);color:var(--text);font-family:Inter,"Geist Sans",system-ui,-apple-system,sans-serif;font-size:15px;line-height:1.45;-webkit-font-smoothing:antialiased}
-body{min-height:100vh;padding:calc(var(--safe-top) + 14px) 16px calc(var(--safe-bot) + 96px);background-image:linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px),linear-gradient(180deg,var(--bg),var(--bg2));background-size:28px 28px,28px 28px,auto;background-attachment:fixed}
+body{min-height:100vh;padding:calc(var(--safe-top) + 14px) 16px calc(var(--safe-bot) + 128px);background-image:linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px),linear-gradient(180deg,var(--bg),var(--bg2));background-size:28px 28px,28px 28px,auto;background-attachment:fixed}
 button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .mono,.kcal,.prog,.bar .l span,.meal .time,.item .g,.opt .g,.ring .v b{font-family:"JetBrains Mono",ui-monospace,monospace;font-variant-numeric:tabular-nums}
 .tag{font-family:"JetBrains Mono",monospace;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--cyan)}
@@ -180,6 +180,45 @@ h1{font-weight:700;font-size:27px;line-height:1.08;letter-spacing:-.02em;margin:
 .ph{display:block;width:100%;max-height:240px;object-fit:cover;border-radius:12px;border:1px solid var(--line);margin-top:10px}
 .lbl{display:block;margin-top:12px;font-family:"JetBrains Mono",monospace;font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--micro)}
 .inp{width:100%;margin-top:5px;padding:10px 12px;border-radius:10px;border:1px solid var(--line2);background:var(--bg);color:var(--title);font:inherit;font-size:14px}
+[hidden]{display:none!important}
+body.standalone{padding-bottom:calc(var(--safe-bot) + 112px)}
+.sheet{padding-top:22px}
+.xclose{position:absolute;top:12px;right:12px;width:32px;height:32px;border-radius:9px;border:1px solid var(--line2);color:var(--text);font-size:13px;display:grid;place-items:center;background:var(--bg)}
+.opt .go{font-size:20px;color:var(--cyan);line-height:1}
+.dialcard{padding:0}
+.dialcard>.dial,.dialcard>.legend{padding:0 16px}
+.dialcard>.legend{padding-bottom:14px}
+.dial-hd{display:flex;align-items:center;gap:10px;width:100%;text-align:left;padding:14px 16px}
+.dial-peek{flex:1;min-width:0;text-align:right;font-family:"JetBrains Mono",monospace;font-size:10.5px;color:var(--title);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.chev{flex:none;width:9px;height:9px;border-right:2px solid var(--cyan);border-bottom:2px solid var(--cyan);transform:rotate(45deg) translate(-2px,-2px);transition:transform .25s}
+.chev.up{transform:rotate(-135deg) translate(-2px,-2px)}
+.dial .dnow{font-family:"JetBrains Mono",monospace;font-size:9.5px;font-weight:700;letter-spacing:.08em}
+.lg-n{background:var(--cyan);border-radius:50%!important;width:7px!important;height:7px!important;box-shadow:0 0 0 3px rgba(56,189,248,.25)}
+.item.extra{border-left:2px solid var(--cyan)}
+.item .fd s.ia{color:var(--cyan)}
+.item .rm{flex:none;width:28px;height:28px;border-radius:7px;border:1px solid var(--line2);color:var(--micro);font-size:11px}
+.wbtns button[disabled]{opacity:.5}
+.cfg-link{display:block;width:100%;margin-top:14px;padding:10px;border:1px dashed var(--cyan-edge);border-radius:10px;font-family:"JetBrains Mono",monospace;font-size:10.5px;font-weight:700;letter-spacing:.1em;color:var(--cyan)}
+.cfg{margin-top:10px;padding:12px;border:1px solid var(--line);border-radius:12px;background:var(--bg)}
+.scan-busy{display:flex;align-items:center;gap:10px;margin-top:12px;padding:10px 12px;border:1px solid var(--cyan-edge);border-radius:10px;background:var(--cyan-soft);font-family:"JetBrains Mono",monospace;font-size:10.5px;color:var(--cyan)}
+.spin{width:14px;height:14px;border-radius:50%;border:2px solid var(--cyan-edge);border-top-color:var(--cyan);animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.scan-err{margin-top:12px;padding:10px 12px;border:1px solid rgba(239,68,68,.45);border-radius:10px;background:rgba(239,68,68,.1);font-family:"JetBrains Mono",monospace;font-size:11px;color:var(--danger)}
+.scan{margin-top:12px;padding:12px;border:1px solid var(--cyan-edge);border-radius:12px;background:var(--bg)}
+.scan-nm{display:block;margin-top:2px;font-size:15px;color:var(--title)}
+.score{flex:none;width:64px;padding:6px 4px;border:1.5px solid;border-radius:10px;text-align:center}
+.score b{display:block;font-family:"JetBrains Mono",monospace;font-size:22px;line-height:1}
+.score span{display:block;margin-top:2px;font-family:"JetBrains Mono",monospace;font-size:6.5px;letter-spacing:.1em;color:var(--micro)}
+.scan-items{margin-top:8px}
+.scan-it{display:flex;align-items:center;gap:10px;padding:7px 0;border-bottom:1px solid var(--line);font-size:13.5px}
+.scan-it .g{min-width:52px;font-family:"JetBrains Mono",monospace;font-weight:700;color:var(--title)}
+.scan-it .fd{flex:1;min-width:0;color:var(--title)}
+.scan-it .mc{font-family:"JetBrains Mono",monospace;font-size:10px;color:var(--text);white-space:nowrap}
+.scan-tot{display:flex;flex-wrap:wrap;gap:4px 12px;margin-top:8px;font-family:"JetBrains Mono",monospace;font-variant-numeric:tabular-nums;font-size:11px;color:var(--text)}
+.scan-tot b{color:var(--title)}
+.scan-tot .ok{color:var(--cyan)}.scan-tot .lo{color:var(--fire)}
+.tips{margin:8px 0 0 16px;font-size:12px;color:var(--text)}
+.add-meal{display:block;width:100%;margin-top:10px;padding:11px;border-radius:10px;background:var(--fire);color:#fff;font-family:"JetBrains Mono",monospace;font-size:10.5px;font-weight:700;letter-spacing:.08em}
 </style>
 <script>
 /* Guardián de arranque: cualquier error de script se muestra como tarjeta visible (nunca pantalla negra). */
@@ -212,7 +251,7 @@ h1{font-weight:700;font-size:27px;line-height:1.08;letter-spacing:-.02em;margin:
 <div id="sheet" class="sheet"></div>
 <div id="toast" class="toast"></div>
 <input id="photo" type="file" accept="image/*" capture="environment" hidden>
-<script id="cjp-data" type="application/json">{"slug":"juan-pablo-arminana","preview":false,"initialMode":"on","handle":"@coachjp.training","mark":"\u003csvg xmlns=\"http://www.w3.org/2000/svg\" width=\"40\" height=\"40\" viewBox=\"0 0 100 100\" data-id=\"hd\">\u003cpath d=\"M50 4 L89.8 27 L89.8 73 L50 96 L10.2 73 L10.2 27 Z\" fill=\"#0B0F17\" stroke=\"#38BDF8\" stroke-opacity=\".8\" stroke-width=\"2.6\" stroke-linejoin=\"round\"/>\u003cpath d=\"M50 10.5 L84.2 30.25 L84.2 69.75 L50 89.5 L15.8 69.75 L15.8 30.25 Z\" fill=\"none\" stroke=\"#38BDF8\" stroke-opacity=\".3\" stroke-width=\"1.4\" stroke-linejoin=\"round\"/>\u003cpolygon points=\"50,17 60.5,33 50,54\" fill=\"#FB923C\" stroke=\"#FB923C\" stroke-width=\".4\" stroke-linejoin=\"round\"/>\u003cpolygon points=\"60.5,33 66.5,47.5 50,54\" fill=\"#F97316\" stroke=\"#F97316\" stroke-width=\".4\" stroke-linejoin=\"round\"/>\u003cpolygon points=\"66.5,47.5 64.5,62 50,54\" fill=\"#EA580C\" stroke=\"#EA580C\" stroke-width=\".4\" stroke-linejoin=\"round\"/>\u003cpolygon points=\"64.5,62 57,72.5 50,54\" fill=\"#C2410C\" stroke=\"#C2410C\" stroke-width=\".4\" stroke-linejoin=\"round\"/>\u003cpolygon points=\"57,72.5 43,72.5 50,54\" fill=\"#9A3412\" stroke=\"#9A3412\" stroke-width=\".4\" stroke-linejoin=\"round\"/>\u003cpolygon points=\"43,72.5 35.5,62 50,54\" fill=\"#C2410C\" stroke=\"#C2410C\" stroke-width=\".4\" stroke-linejoin=\"round\"/>\u003cpolygon points=\"35.5,62 33.5,49.5 50,54\" fill=\"#EA580C\" stroke=\"#EA580C\" stroke-width=\".4\" stroke-linejoin=\"round\"/>\u003cpolygon points=\"33.5,49.5 40,39.5 50,54\" fill=\"#F97316\" stroke=\"#F97316\" stroke-width=\".4\" stroke-linejoin=\"round\"/>\u003cpolygon points=\"40,39.5 44,46 50,54\" fill=\"#FB923C\" stroke=\"#FB923C\" stroke-width=\".4\" stroke-linejoin=\"round\"/>\u003cpolygon points=\"44,46 46,31 50,54\" fill=\"#FDBA74\" stroke=\"#FDBA74\" stroke-width=\".4\" stroke-linejoin=\"round\"/>\u003cpolygon points=\"46,31 50,17 50,54\" fill=\"#FDBA74\" stroke=\"#FDBA74\" stroke-width=\".4\" stroke-linejoin=\"round\"/>\u003cpolygon points=\"50,43 54.5,54 50,63 45.5,54\" fill=\"#FFEDD5\" fill-opacity=\".92\"/>\u003ctext x=\"50\" y=\"71\" text-anchor=\"middle\" font-family=\"JetBrains Mono,ui-monospace,monospace\" font-weight=\"800\" font-size=\"6.4\" letter-spacing=\".6\" fill=\"#0B0F17\" fill-opacity=\".72\">JP\u003c/text>\u003c/svg>","markSm":"\u003csvg xmlns=\"http://www.w3.org/2000/svg\" width=\"34\" height=\"34\" viewBox=\"0 0 100 100\" data-id=\"sh\">\u003cpath d=\"M50 4 L89.8 27 L89.8 73 L50 96 L10.2 73 L10.2 27 Z\" fill=\"#0B0F17\" stroke=\"#38BDF8\" stroke-opacity=\".8\" stroke-width=\"2.6\" stroke-linejoin=\"round\"/>\u003cpath d=\"M50 10.5 L84.2 30.25 L84.2 69.75 L50 89.5 L15.8 69.75 L15.8 30.25 Z\" fill=\"none\" stroke=\"#38BDF8\" stroke-opacity=\".3\" stroke-width=\"1.4\" stroke-linejoin=\"round\"/>\u003cpolygon points=\"50,17 60.5,33 50,54\" fill=\"#FB923C\" stroke=\"#FB923C\" stroke-width=\".4\" stroke-linejoin=\"round\"/>\u003cpolygon points=\"60.5,33 66.5,47.5 50,54\" fill=\"#F97316\" stroke=\"#F97316\" stroke-width=\".4\" stroke-linejoin=\"round\"/>\u003cpolygon points=\"66.5,47.5 64.5,62 50,54\" fill=\"#EA580C\" stroke=\"#EA580C\" stroke-width=\".4\" stroke-linejoin=\"round\"/>\u003cpolygon points=\"64.5,62 57,72.5 50,54\" fill=\"#C2410C\" stroke=\"#C2410C\" stroke-width=\".4\" stroke-linejoin=\"round\"/>\u003cpolygon points=\"57,72.5 43,72.5 50,54\" fill=\"#9A3412\" stroke=\"#9A3412\" stroke-width=\".4\" stroke-linejoin=\"round\"/>\u003cpolygon points=\"43,72.5 35.5,62 50,54\" fill=\"#C2410C\" stroke=\"#C2410C\" stroke-width=\".4\" stroke-linejoin=\"round\"/>\u003cpolygon points=\"35.5,62 33.5,49.5 50,54\" fill=\"#EA580C\" stroke=\"#EA580C\" stroke-width=\".4\" stroke-linejoin=\"round\"/>\u003cpolygon points=\"33.5,49.5 40,39.5 50,54\" fill=\"#F97316\" stroke=\"#F97316\" stroke-width=\".4\" stroke-linejoin=\"round\"/>\u003cpolygon points=\"40,39.5 44,46 50,54\" fill=\"#FB923C\" stroke=\"#FB923C\" stroke-width=\".4\" stroke-linejoin=\"round\"/>\u003cpolygon points=\"44,46 46,31 50,54\" fill=\"#FDBA74\" stroke=\"#FDBA74\" stroke-width=\".4\" stroke-linejoin=\"round\"/>\u003cpolygon points=\"46,31 50,17 50,54\" fill=\"#FDBA74\" stroke=\"#FDBA74\" stroke-width=\".4\" stroke-linejoin=\"round\"/>\u003cpolygon points=\"50,43 54.5,54 50,63 45.5,54\" fill=\"#FFEDD5\" fill-opacity=\".92\"/>\u003ctext x=\"50\" y=\"71\" text-anchor=\"middle\" font-family=\"JetBrains Mono,ui-monospace,monospace\" font-weight=\"800\" font-size=\"6.4\" letter-spacing=\".6\" fill=\"#0B0F17\" fill-opacity=\".72\">JP\u003c/text>\u003c/svg>","shieldSm":"\u003csvg xmlns=\"http://www.w3.org/2000/svg\" width=\"26\" height=\"31\" viewBox=\"0 0 100 120\">\u003cdefs>\u003clinearGradient id=\"g\" x1=\"0\" y1=\"0\" x2=\"0\" y2=\"1\">\u003cstop offset=\"0\" stop-color=\"#FFE45C\"/>\u003cstop offset=\"1\" stop-color=\"#F2C200\"/>\u003c/linearGradient>\u003c/defs>\u003cpath d=\"M50 3 L91 16 Q95 17.5 95 22 L95 57 C95 86 75 105 50 117 C25 105 5 86 5 57 L5 22 Q5 17.5 9 16 Z\" fill=\"url(#g)\" stroke=\"#FFF3A6\" stroke-opacity=\".55\" stroke-width=\"1.5\"/>\u003cpath d=\"M50 12 L85 23 L85 57 C85 80 69 96 50 106 C31 96 15 80 15 57 L15 23 Z\" fill=\"none\" stroke=\"#7A6500\" stroke-opacity=\".55\" stroke-width=\"2.5\"/>\u003cpath d=\"M57 25 L31 66 L47 66 L41 97 L70 51 L53 51 L61 25 Z\" fill=\"#0B0B0B\"/>\u003c/svg>","athlete":{"name":"Juan Pablo Armiñana","weightKg":88,"phase":"Recomposición Agresiva","discipline":"CROSSFIT & HYROX"},"coachNote":"Controlá el picoteo matutino usando las tutucas y el mate para la ansiedad. Prioriza el peso neto indicado en carnes y almidones para asegurar el cumplimiento normocalórico.","targets":{"on":{"kcal":2945,"p":195,"c":350,"f":85},"off":{"kcal":2515,"p":195,"c":220,"f":95}},"threshold":2.7,"meals":[{"id":"f5wj86u5","name":"Desayuno Energético","time":"06:30","day":"both","role":"breakfast","items":[{"id":"h5w8rtvm","foodId":"huevo","food":"Huevo entero","grams":150,"p":18.9,"c":1,"f":14.3,"leucine":1.64},{"id":"zhw8awo5","foodId":"avena-instantanea","food":"Avena instantánea","grams":60,"p":7.2,"c":39.6,"f":3.9,"leucine":0.57},{"id":"m43mdod6","foodId":"yogur","food":"Yogur griego descremado","grams":200,"p":20,"c":8,"f":0.8,"leucine":2},{"id":"iw2ixwdf","foodId":"banana","food":"Banana","grams":120,"p":1.3,"c":27.6,"f":0.4,"leucine":0.08}],"mps":true},{"id":"f2hjgngy","name":"Almuerzo Táctico","time":"12:30","day":"both","role":"lunch","items":[{"id":"p9a0e1zj","foodId":"pollo","food":"Pechuga de pollo (cocida)","grams":200,"p":62,"c":0,"f":7.2,"leucine":5},{"id":"l4a07639","foodId":"arroz","food":"Arroz blanco (cocido)","grams":250,"p":6.8,"c":70,"f":0.8,"leucine":0.55},{"id":"itgy5l8h","foodId":"oliva","food":"Aceite de oliva extra virgen","grams":10,"p":0,"c":0,"f":10,"leucine":0},{"id":"kzcut1d0","foodId":"vegetales","food":"Vegetales mixtos / ensalada","grams":150,"p":2.3,"c":6,"f":0.3,"leucine":0.12}],"mps":true},{"id":"5584dem5","name":"Pre-Entreno PeriWOD","time":"15:15","day":"on","role":"peri","items":[{"id":"gv6x5l6g","foodId":"tutucas","food":"Tutucas de maíz","grams":50,"p":3.8,"c":42,"f":0.8,"leucine":0.45},{"id":"n7g3ye27","foodId":"avena","food":"Avena arrollada","grams":40,"p":5.2,"c":24,"f":2.8,"leucine":0.4}],"mps":false},{"id":"qfmfb1py","name":"Cena de Recuperación","time":"20:30","day":"both","role":"dinner","items":[{"id":"7ij5p3k1","foodId":"nalga","food":"Nalga / peceto (cocido)","grams":200,"p":60,"c":0,"f":10,"leucine":4.8},{"id":"yo94u6b6","foodId":"papa","food":"Papa (hervida)","grams":300,"p":5.7,"c":60,"f":0.3,"leucine":0.3},{"id":"ezt5u8xh","foodId":"palta","food":"Palta","grams":60,"p":1.2,"c":5.1,"f":9,"leucine":0.08},{"id":"3roarjlg","foodId":"vegetales","food":"Vegetales mixtos / ensalada","grams":100,"p":1.5,"c":4,"f":0.2,"leucine":0.08}],"mps":true}],"foods":{"pollo":{"id":"pollo","name":"Pechuga de pollo (cocida)","group":"lean-protein","p":31,"c":0,"f":3.6,"leucine":2.5},"cuadril":{"id":"cuadril","name":"Cuadril magro (cocido)","group":"lean-protein","p":29,"c":0,"f":7,"leucine":2.35},"lomo":{"id":"lomo","name":"Lomo vacuno (cocido)","group":"lean-protein","p":28,"c":0,"f":8,"leucine":2.25},"nalga":{"id":"nalga","name":"Nalga / peceto (cocido)","group":"lean-protein","p":30,"c":0,"f":5,"leucine":2.4},"picada":{"id":"picada","name":"Carne picada especial 5% (cocida)","group":"lean-protein","p":26,"c":0,"f":10,"leucine":2.1},"merluza":{"id":"merluza","name":"Merluza (cocida)","group":"lean-protein","p":23,"c":0,"f":1.5,"leucine":1.9},"atun":{"id":"atun","name":"Atún al natural (escurrido)","group":"lean-protein","p":26,"c":0,"f":1,"leucine":2.1},"cerdo":{"id":"cerdo","name":"Bondiola / carré magro de cerdo (cocido)","group":"lean-protein","p":27,"c":0,"f":9,"leucine":2.15},"huevo":{"id":"huevo","name":"Huevo entero","group":"eggs","unit":{"label":"u","grams":50},"p":12.6,"c":0.7,"f":9.5,"leucine":1.09},"claras":{"id":"claras","name":"Claras de huevo","group":"eggs","unit":{"label":"clara","grams":33},"p":10.9,"c":0.7,"f":0.2,"leucine":0.95},"ricota":{"id":"ricota","name":"Ricota magra","group":"dairy-protein","p":11,"c":3.5,"f":4,"leucine":1.15},"yogur":{"id":"yogur","name":"Yogur griego descremado","group":"dairy-protein","p":10,"c":4,"f":0.4,"leucine":1},"untable":{"id":"untable","name":"Queso untable descremado","group":"dairy-protein","p":10,"c":4,"f":1,"leucine":0.98},"leche":{"id":"leche","name":"Leche descremada","group":"dairy-protein","unit":{"label":"taza","grams":250},"p":3.3,"c":5,"f":0.1,"leucine":0.33},"whey":{"id":"whey","name":"Whey protein (concentrado)","group":"whey","unit":{"label":"scoop","grams":30},"p":78,"c":7,"f":6,"leucine":8.5},"avena":{"id":"avena","name":"Avena arrollada","group":"cereal","p":13,"c":60,"f":7,"leucine":1},"pan":{"id":"pan","name":"Pan integral","group":"cereal","unit":{"label":"rebanada","grams":30},"p":9,"c":45,"f":3.5,"leucine":0.65},"galletas-arroz":{"id":"galletas-arroz","name":"Galletas de arroz inflado","group":"cereal","unit":{"label":"u","grams":9},"p":8,"c":80,"f":3,"leucine":0.6,"equiv":["tutucas","tostadas-arroz"]},"tutucas":{"id":"tutucas","name":"Tutucas de maíz","group":"cereal","unit":{"label":"porción","grams":30},"p":7.5,"c":84,"f":1.5,"leucine":0.9,"equiv":["copos-maiz","galletas-arroz","avena-instantanea","tostadas-arroz"]},"copos-maiz":{"id":"copos-maiz","name":"Copos de maíz sin azúcar","group":"cereal","unit":{"label":"porción","grams":30},"p":7,"c":84,"f":0.9,"leucine":0.85,"equiv":["tutucas","galletas-arroz","avena-instantanea"]},"avena-instantanea":{"id":"avena-instantanea","name":"Avena instantánea","group":"cereal","p":12,"c":66,"f":6.5,"leucine":0.95,"equiv":["avena","tutucas","copos-maiz"]},"tostadas-arroz":{"id":"tostadas-arroz","name":"Tostadas de arroz","group":"cereal","unit":{"label":"u","grams":8},"p":7.5,"c":81,"f":2.8,"leucine":0.6,"equiv":["galletas-arroz","tutucas"]},"arroz":{"id":"arroz","name":"Arroz blanco (cocido)","group":"starch","p":2.7,"c":28,"f":0.3,"leucine":0.22},"yamani":{"id":"yamani","name":"Arroz yamaní (cocido)","group":"starch","p":2.6,"c":23,"f":0.9,"leucine":0.21},"fideos":{"id":"fideos","name":"Fideos (cocidos)","group":"starch","p":5.8,"c":31,"f":0.9,"leucine":0.45},"batata":{"id":"batata","name":"Batata (cocida)","group":"starch","p":1.6,"c":20,"f":0.1,"leucine":0.09},"papa":{"id":"papa","name":"Papa (hervida)","group":"starch","p":1.9,"c":20,"f":0.1,"leucine":0.1},"lentejas":{"id":"lentejas","name":"Lentejas (cocidas)","group":"starch","p":9,"c":20,"f":0.4,"leucine":0.65},"banana":{"id":"banana","name":"Banana","group":"fruit","unit":{"label":"u","grams":120},"p":1.1,"c":23,"f":0.3,"leucine":0.07},"manzana":{"id":"manzana","name":"Manzana","group":"fruit","unit":{"label":"u","grams":180},"p":0.3,"c":14,"f":0.2,"leucine":0.01},"frutillas":{"id":"frutillas","name":"Frutillas","group":"fruit","p":0.7,"c":7.7,"f":0.3,"leucine":0.04},"miel":{"id":"miel","name":"Miel","group":"sport-carb","p":0.3,"c":82,"f":0,"leucine":0},"isotonica":{"id":"isotonica","name":"Bebida isotónica","group":"sport-carb","unit":{"label":"botella","grams":500},"p":0,"c":6,"f":0,"leucine":0},"dulce-membrillo":{"id":"dulce-membrillo","name":"Dulce de membrillo","group":"sport-carb","p":0.4,"c":65,"f":0,"leucine":0},"mani":{"id":"mani","name":"Pasta de maní","group":"fat","p":25,"c":16,"f":50,"leucine":1.6},"palta":{"id":"palta","name":"Palta","group":"fat","p":2,"c":8.5,"f":15,"leucine":0.14},"oliva":{"id":"oliva","name":"Aceite de oliva extra virgen","group":"fat","unit":{"label":"cda","grams":13},"p":0,"c":0,"f":100,"leucine":0},"nueces":{"id":"nueces","name":"Nueces","group":"fat","p":15,"c":14,"f":65,"leucine":1.17},"vegetales":{"id":"vegetales","name":"Vegetales mixtos / ensalada","group":"veg","p":1.5,"c":4,"f":0.2,"leucine":0.08}},"anchors":{"lean-protein":"p","dairy-protein":"p","eggs":"p","whey":"p","starch":"c","cereal":"c","fruit":"c","fat":"f","veg":"c","sport-carb":"c"},"groupLabels":{"lean-protein":"Proteína magra","dairy-protein":"Lácteo proteico","eggs":"Huevo","whey":"Suplemento proteico","starch":"Almidón","cereal":"Almidón / Carbos rápidos / Cereales","fruit":"Fruta","fat":"Grasa","veg":"Vegetal","sport-carb":"Carbo rápido"},"swapGroups":{"lean-protein":8,"eggs":2,"dairy-protein":4,"whey":1,"cereal":7,"starch":6,"fruit":3,"sport-carb":3,"fat":4,"veg":1},"supplements":[{"id":"creatina","name":"Creatina monohidrato","dose":"5 g diarios","timing":"Post-entreno o cualquier momento","evidence":"KREIDER ET AL., 2017 · J INT SOC SPORTS NUTR","doi":"10.1186/s12970-017-0173-z","enabled":true},{"id":"beta-alanina","name":"Beta-alanina","dose":"3.2 - 4.8 g diarios","timing":"Dividido en tomas diarias","evidence":"TREXLER ET AL., 2015 · J INT SOC SPORTS NUTR","doi":"10.1186/s12970-018-0248-7","enabled":true}],"protocols":[],"citations":[{"label":"MORTON ET AL., 2018 · BR J SPORTS MED","doi":"10.1136/bjsports-2017-097608"},{"label":"SCHOENFELD & ARAGON, 2018 · J INT SOC SPORTS NUTR","doi":"10.1186/s12970-018-0215-1"},{"label":"NORTON & LAYMAN, 2006 · J NUTR","doi":"10.1093/jn/136.2.533S"},{"label":"THOMAS, ERDMAN & BURKE, 2016 · MED SCI SPORTS EXERC","doi":"10.1249/MSS.0000000000000852"},{"label":"LOUCKS ET AL., 2011 · J SPORTS SCI","doi":"10.1080/02640414.2011.588958"}],"generatedLabel":"03/10/2026","hydration":{"offMl":3000,"onMl":4000},"training":{"time":"18:00","minutes":75},"trainingDays":5,"categories":{"lean-protein":"Carnes y pescados","eggs":"Huevos y lácteos","dairy-protein":"Huevos y lácteos","starch":"Almidones y cereales","cereal":"Almidones y cereales","sport-carb":"Carbos de entreno","fruit":"Frutas y vegetales","veg":"Frutas y vegetales","fat":"Grasas saludables","whey":"Suplementos"},"categoryOrder":["Carnes y pescados","Huevos y lácteos","Almidones y cereales","Carbos de entreno","Frutas y vegetales","Grasas saludables","Suplementos","Otros"],"manifest":{"name":"Coach JP Nutrition · Juan Pablo Armiñana","short_name":"Juan","description":"Plan nutricional personalizado · Coach JP Nutrition · High Performance System","start_url":"./","scope":"./","display":"standalone","orientation":"portrait","background_color":"#0B0F17","theme_color":"#0B0F17","lang":"es-AR","icons":[]}}</script>
+<script id="cjp-data" type="application/json">{"slug":"juan-pablo-arminana","preview":false,"initialMode":"on","handle":"@coachjp.training","mark":"\u003csvg xmlns=\"http://www.w3.org/2000/svg\" width=\"40\" height=\"40\" viewBox=\"0 0 100 100\" data-id=\"hd\">\u003cpath d=\"M50 4 L89.8 27 L89.8 73 L50 96 L10.2 73 L10.2 27 Z\" fill=\"#0B0F17\" stroke=\"#38BDF8\" stroke-opacity=\".8\" stroke-width=\"2.6\" stroke-linejoin=\"round\"/>\u003cpath d=\"M50 10.5 L84.2 30.25 L84.2 69.75 L50 89.5 L15.8 69.75 L15.8 30.25 Z\" fill=\"none\" stroke=\"#38BDF8\" stroke-opacity=\".3\" stroke-width=\"1.4\" stroke-linejoin=\"round\"/>\u003cpolygon points=\"50,17 60.5,33 50,54\" fill=\"#FB923C\" stroke=\"#FB923C\" stroke-width=\".4\" stroke-linejoin=\"round\"/>\u003cpolygon points=\"60.5,33 66.5,47.5 50,54\" fill=\"#F97316\" stroke=\"#F97316\" stroke-width=\".4\" stroke-linejoin=\"round\"/>\u003cpolygon points=\"66.5,47.5 64.5,62 50,54\" fill=\"#EA580C\" stroke=\"#EA580C\" stroke-width=\".4\" stroke-linejoin=\"round\"/>\u003cpolygon points=\"64.5,62 57,72.5 50,54\" fill=\"#C2410C\" stroke=\"#C2410C\" stroke-width=\".4\" stroke-linejoin=\"round\"/>\u003cpolygon points=\"57,72.5 43,72.5 50,54\" fill=\"#9A3412\" stroke=\"#9A3412\" stroke-width=\".4\" stroke-linejoin=\"round\"/>\u003cpolygon points=\"43,72.5 35.5,62 50,54\" fill=\"#C2410C\" stroke=\"#C2410C\" stroke-width=\".4\" stroke-linejoin=\"round\"/>\u003cpolygon points=\"35.5,62 33.5,49.5 50,54\" fill=\"#EA580C\" stroke=\"#EA580C\" stroke-width=\".4\" stroke-linejoin=\"round\"/>\u003cpolygon points=\"33.5,49.5 40,39.5 50,54\" fill=\"#F97316\" stroke=\"#F97316\" stroke-width=\".4\" stroke-linejoin=\"round\"/>\u003cpolygon points=\"40,39.5 44,46 50,54\" fill=\"#FB923C\" stroke=\"#FB923C\" stroke-width=\".4\" stroke-linejoin=\"round\"/>\u003cpolygon points=\"44,46 46,31 50,54\" fill=\"#FDBA74\" stroke=\"#FDBA74\" stroke-width=\".4\" stroke-linejoin=\"round\"/>\u003cpolygon points=\"46,31 50,17 50,54\" fill=\"#FDBA74\" stroke=\"#FDBA74\" stroke-width=\".4\" stroke-linejoin=\"round\"/>\u003cpolygon points=\"50,43 54.5,54 50,63 45.5,54\" fill=\"#FFEDD5\" fill-opacity=\".92\"/>\u003ctext x=\"50\" y=\"71\" text-anchor=\"middle\" font-family=\"JetBrains Mono,ui-monospace,monospace\" font-weight=\"800\" font-size=\"6.4\" letter-spacing=\".6\" fill=\"#0B0F17\" fill-opacity=\".72\">JP\u003c/text>\u003c/svg>","markSm":"\u003csvg xmlns=\"http://www.w3.org/2000/svg\" width=\"34\" height=\"34\" viewBox=\"0 0 100 100\" data-id=\"sh\">\u003cpath d=\"M50 4 L89.8 27 L89.8 73 L50 96 L10.2 73 L10.2 27 Z\" fill=\"#0B0F17\" stroke=\"#38BDF8\" stroke-opacity=\".8\" stroke-width=\"2.6\" stroke-linejoin=\"round\"/>\u003cpath d=\"M50 10.5 L84.2 30.25 L84.2 69.75 L50 89.5 L15.8 69.75 L15.8 30.25 Z\" fill=\"none\" stroke=\"#38BDF8\" stroke-opacity=\".3\" stroke-width=\"1.4\" stroke-linejoin=\"round\"/>\u003cpolygon points=\"50,17 60.5,33 50,54\" fill=\"#FB923C\" stroke=\"#FB923C\" stroke-width=\".4\" stroke-linejoin=\"round\"/>\u003cpolygon points=\"60.5,33 66.5,47.5 50,54\" fill=\"#F97316\" stroke=\"#F97316\" stroke-width=\".4\" stroke-linejoin=\"round\"/>\u003cpolygon points=\"66.5,47.5 64.5,62 50,54\" fill=\"#EA580C\" stroke=\"#EA580C\" stroke-width=\".4\" stroke-linejoin=\"round\"/>\u003cpolygon points=\"64.5,62 57,72.5 50,54\" fill=\"#C2410C\" stroke=\"#C2410C\" stroke-width=\".4\" stroke-linejoin=\"round\"/>\u003cpolygon points=\"57,72.5 43,72.5 50,54\" fill=\"#9A3412\" stroke=\"#9A3412\" stroke-width=\".4\" stroke-linejoin=\"round\"/>\u003cpolygon points=\"43,72.5 35.5,62 50,54\" fill=\"#C2410C\" stroke=\"#C2410C\" stroke-width=\".4\" stroke-linejoin=\"round\"/>\u003cpolygon points=\"35.5,62 33.5,49.5 50,54\" fill=\"#EA580C\" stroke=\"#EA580C\" stroke-width=\".4\" stroke-linejoin=\"round\"/>\u003cpolygon points=\"33.5,49.5 40,39.5 50,54\" fill=\"#F97316\" stroke=\"#F97316\" stroke-width=\".4\" stroke-linejoin=\"round\"/>\u003cpolygon points=\"40,39.5 44,46 50,54\" fill=\"#FB923C\" stroke=\"#FB923C\" stroke-width=\".4\" stroke-linejoin=\"round\"/>\u003cpolygon points=\"44,46 46,31 50,54\" fill=\"#FDBA74\" stroke=\"#FDBA74\" stroke-width=\".4\" stroke-linejoin=\"round\"/>\u003cpolygon points=\"46,31 50,17 50,54\" fill=\"#FDBA74\" stroke=\"#FDBA74\" stroke-width=\".4\" stroke-linejoin=\"round\"/>\u003cpolygon points=\"50,43 54.5,54 50,63 45.5,54\" fill=\"#FFEDD5\" fill-opacity=\".92\"/>\u003ctext x=\"50\" y=\"71\" text-anchor=\"middle\" font-family=\"JetBrains Mono,ui-monospace,monospace\" font-weight=\"800\" font-size=\"6.4\" letter-spacing=\".6\" fill=\"#0B0F17\" fill-opacity=\".72\">JP\u003c/text>\u003c/svg>","shieldSm":"\u003csvg xmlns=\"http://www.w3.org/2000/svg\" width=\"26\" height=\"31\" viewBox=\"0 0 100 120\">\u003cdefs>\u003clinearGradient id=\"g\" x1=\"0\" y1=\"0\" x2=\"0\" y2=\"1\">\u003cstop offset=\"0\" stop-color=\"#FFE45C\"/>\u003cstop offset=\"1\" stop-color=\"#F2C200\"/>\u003c/linearGradient>\u003c/defs>\u003cpath d=\"M50 3 L91 16 Q95 17.5 95 22 L95 57 C95 86 75 105 50 117 C25 105 5 86 5 57 L5 22 Q5 17.5 9 16 Z\" fill=\"url(#g)\" stroke=\"#FFF3A6\" stroke-opacity=\".55\" stroke-width=\"1.5\"/>\u003cpath d=\"M50 12 L85 23 L85 57 C85 80 69 96 50 106 C31 96 15 80 15 57 L15 23 Z\" fill=\"none\" stroke=\"#7A6500\" stroke-opacity=\".55\" stroke-width=\"2.5\"/>\u003cpath d=\"M57 25 L31 66 L47 66 L41 97 L70 51 L53 51 L61 25 Z\" fill=\"#0B0B0B\"/>\u003c/svg>","athlete":{"name":"Juan Pablo Armiñana","weightKg":88,"phase":"Recomposición Agresiva","discipline":"CROSSFIT & HYROX"},"coachNote":"Controlá el picoteo matutino usando las tutucas y el mate para la ansiedad. Prioriza el peso neto indicado en carnes y almidones para asegurar el cumplimiento normocalórico.","targets":{"on":{"kcal":2945,"p":195,"c":350,"f":85},"off":{"kcal":2515,"p":195,"c":220,"f":95}},"threshold":2.7,"meals":[{"id":"f5wj86u5","name":"Desayuno Energético","time":"06:30","day":"both","role":"breakfast","items":[{"id":"h5w8rtvm","foodId":"huevo","food":"Huevo entero","grams":150,"p":18.9,"c":1,"f":14.3,"leucine":1.64},{"id":"zhw8awo5","foodId":"avena-instantanea","food":"Avena instantánea","grams":60,"p":7.2,"c":39.6,"f":3.9,"leucine":0.57},{"id":"m43mdod6","foodId":"yogur","food":"Yogur griego descremado","grams":200,"p":20,"c":8,"f":0.8,"leucine":2},{"id":"iw2ixwdf","foodId":"banana","food":"Banana","grams":120,"p":1.3,"c":27.6,"f":0.4,"leucine":0.08}],"mps":true},{"id":"f2hjgngy","name":"Almuerzo Táctico","time":"12:30","day":"both","role":"lunch","items":[{"id":"p9a0e1zj","foodId":"pollo","food":"Pechuga de pollo (cocida)","grams":200,"p":62,"c":0,"f":7.2,"leucine":5},{"id":"l4a07639","foodId":"arroz","food":"Arroz blanco (cocido)","grams":250,"p":6.8,"c":70,"f":0.8,"leucine":0.55},{"id":"itgy5l8h","foodId":"oliva","food":"Aceite de oliva extra virgen","grams":10,"p":0,"c":0,"f":10,"leucine":0},{"id":"kzcut1d0","foodId":"vegetales","food":"Vegetales mixtos / ensalada","grams":150,"p":2.3,"c":6,"f":0.3,"leucine":0.12}],"mps":true},{"id":"5584dem5","name":"Pre-Entreno PeriWOD","time":"15:15","day":"on","role":"peri","items":[{"id":"gv6x5l6g","foodId":"tutucas","food":"Tutucas de maíz","grams":50,"p":3.8,"c":42,"f":0.8,"leucine":0.45},{"id":"n7g3ye27","foodId":"avena","food":"Avena arrollada","grams":40,"p":5.2,"c":24,"f":2.8,"leucine":0.4}],"mps":false},{"id":"qfmfb1py","name":"Cena de Recuperación","time":"20:30","day":"both","role":"dinner","items":[{"id":"7ij5p3k1","foodId":"nalga","food":"Nalga / peceto (cocido)","grams":200,"p":60,"c":0,"f":10,"leucine":4.8},{"id":"yo94u6b6","foodId":"papa","food":"Papa (hervida)","grams":300,"p":5.7,"c":60,"f":0.3,"leucine":0.3},{"id":"ezt5u8xh","foodId":"palta","food":"Palta","grams":60,"p":1.2,"c":5.1,"f":9,"leucine":0.08},{"id":"3roarjlg","foodId":"vegetales","food":"Vegetales mixtos / ensalada","grams":100,"p":1.5,"c":4,"f":0.2,"leucine":0.08}],"mps":true}],"foods":{"pollo":{"id":"pollo","name":"Pechuga de pollo (cocida)","group":"lean-protein","p":31,"c":0,"f":3.6,"leucine":2.5},"cuadril":{"id":"cuadril","name":"Cuadril magro (cocido)","group":"lean-protein","p":29,"c":0,"f":7,"leucine":2.35},"lomo":{"id":"lomo","name":"Lomo vacuno (cocido)","group":"lean-protein","p":28,"c":0,"f":8,"leucine":2.25},"nalga":{"id":"nalga","name":"Nalga / peceto (cocido)","group":"lean-protein","p":30,"c":0,"f":5,"leucine":2.4},"picada":{"id":"picada","name":"Carne picada especial 5% (cocida)","group":"lean-protein","p":26,"c":0,"f":10,"leucine":2.1},"merluza":{"id":"merluza","name":"Merluza (cocida)","group":"lean-protein","p":23,"c":0,"f":1.5,"leucine":1.9},"atun":{"id":"atun","name":"Atún al natural (escurrido)","group":"lean-protein","p":26,"c":0,"f":1,"leucine":2.1},"cerdo":{"id":"cerdo","name":"Bondiola / carré magro de cerdo (cocido)","group":"lean-protein","p":27,"c":0,"f":9,"leucine":2.15},"huevo":{"id":"huevo","name":"Huevo entero","group":"eggs","unit":{"label":"u","grams":50},"p":12.6,"c":0.7,"f":9.5,"leucine":1.09},"claras":{"id":"claras","name":"Claras de huevo","group":"eggs","unit":{"label":"clara","grams":33},"p":10.9,"c":0.7,"f":0.2,"leucine":0.95},"ricota":{"id":"ricota","name":"Ricota magra","group":"dairy-protein","p":11,"c":3.5,"f":4,"leucine":1.15},"yogur":{"id":"yogur","name":"Yogur griego descremado","group":"dairy-protein","p":10,"c":4,"f":0.4,"leucine":1},"untable":{"id":"untable","name":"Queso untable descremado","group":"dairy-protein","p":10,"c":4,"f":1,"leucine":0.98},"leche":{"id":"leche","name":"Leche descremada","group":"dairy-protein","unit":{"label":"taza","grams":250},"p":3.3,"c":5,"f":0.1,"leucine":0.33},"whey":{"id":"whey","name":"Whey protein (concentrado)","group":"whey","unit":{"label":"scoop","grams":30},"p":78,"c":7,"f":6,"leucine":8.5},"avena":{"id":"avena","name":"Avena arrollada","group":"cereal","p":13,"c":60,"f":7,"leucine":1},"pan":{"id":"pan","name":"Pan integral","group":"cereal","unit":{"label":"rebanada","grams":30},"p":9,"c":45,"f":3.5,"leucine":0.65},"galletas-arroz":{"id":"galletas-arroz","name":"Galletas de arroz inflado","group":"cereal","unit":{"label":"u","grams":9},"p":8,"c":80,"f":3,"leucine":0.6,"equiv":["tutucas","tostadas-arroz"]},"tutucas":{"id":"tutucas","name":"Tutucas de maíz","group":"cereal","unit":{"label":"porción","grams":30},"p":7.5,"c":84,"f":1.5,"leucine":0.9,"equiv":["copos-maiz","galletas-arroz","avena-instantanea","tostadas-arroz"]},"copos-maiz":{"id":"copos-maiz","name":"Copos de maíz sin azúcar","group":"cereal","unit":{"label":"porción","grams":30},"p":7,"c":84,"f":0.9,"leucine":0.85,"equiv":["tutucas","galletas-arroz","avena-instantanea"]},"avena-instantanea":{"id":"avena-instantanea","name":"Avena instantánea","group":"cereal","p":12,"c":66,"f":6.5,"leucine":0.95,"equiv":["avena","tutucas","copos-maiz"]},"tostadas-arroz":{"id":"tostadas-arroz","name":"Tostadas de arroz","group":"cereal","unit":{"label":"u","grams":8},"p":7.5,"c":81,"f":2.8,"leucine":0.6,"equiv":["galletas-arroz","tutucas"]},"arroz":{"id":"arroz","name":"Arroz blanco (cocido)","group":"starch","p":2.7,"c":28,"f":0.3,"leucine":0.22},"yamani":{"id":"yamani","name":"Arroz yamaní (cocido)","group":"starch","p":2.6,"c":23,"f":0.9,"leucine":0.21},"fideos":{"id":"fideos","name":"Fideos (cocidos)","group":"starch","p":5.8,"c":31,"f":0.9,"leucine":0.45},"batata":{"id":"batata","name":"Batata (cocida)","group":"starch","p":1.6,"c":20,"f":0.1,"leucine":0.09},"papa":{"id":"papa","name":"Papa (hervida)","group":"starch","p":1.9,"c":20,"f":0.1,"leucine":0.1},"lentejas":{"id":"lentejas","name":"Lentejas (cocidas)","group":"starch","p":9,"c":20,"f":0.4,"leucine":0.65},"banana":{"id":"banana","name":"Banana","group":"fruit","unit":{"label":"u","grams":120},"p":1.1,"c":23,"f":0.3,"leucine":0.07},"manzana":{"id":"manzana","name":"Manzana","group":"fruit","unit":{"label":"u","grams":180},"p":0.3,"c":14,"f":0.2,"leucine":0.01},"frutillas":{"id":"frutillas","name":"Frutillas","group":"fruit","p":0.7,"c":7.7,"f":0.3,"leucine":0.04},"miel":{"id":"miel","name":"Miel","group":"sport-carb","p":0.3,"c":82,"f":0,"leucine":0},"isotonica":{"id":"isotonica","name":"Bebida isotónica","group":"sport-carb","unit":{"label":"botella","grams":500},"p":0,"c":6,"f":0,"leucine":0},"dulce-membrillo":{"id":"dulce-membrillo","name":"Dulce de membrillo","group":"sport-carb","p":0.4,"c":65,"f":0,"leucine":0},"mani":{"id":"mani","name":"Pasta de maní","group":"fat","p":25,"c":16,"f":50,"leucine":1.6},"palta":{"id":"palta","name":"Palta","group":"fat","p":2,"c":8.5,"f":15,"leucine":0.14},"oliva":{"id":"oliva","name":"Aceite de oliva extra virgen","group":"fat","unit":{"label":"cda","grams":13},"p":0,"c":0,"f":100,"leucine":0},"nueces":{"id":"nueces","name":"Nueces","group":"fat","p":15,"c":14,"f":65,"leucine":1.17},"vegetales":{"id":"vegetales","name":"Vegetales mixtos / ensalada","group":"veg","p":1.5,"c":4,"f":0.2,"leucine":0.08}},"anchors":{"lean-protein":"p","dairy-protein":"p","eggs":"p","whey":"p","starch":"c","cereal":"c","fruit":"c","fat":"f","veg":"c","sport-carb":"c"},"groupLabels":{"lean-protein":"Proteína magra","dairy-protein":"Lácteo proteico","eggs":"Huevo","whey":"Suplemento proteico","starch":"Almidón","cereal":"Almidón / Carbos rápidos / Cereales","fruit":"Fruta","fat":"Grasa","veg":"Vegetal","sport-carb":"Carbo rápido"},"swapGroups":{"lean-protein":8,"eggs":2,"dairy-protein":4,"whey":1,"cereal":7,"starch":6,"fruit":3,"sport-carb":3,"fat":4,"veg":1},"supplements":[{"id":"creatina","name":"Creatina monohidrato","dose":"5 g diarios","timing":"Post-entreno o cualquier momento","evidence":"KREIDER ET AL., 2017 · J INT SOC SPORTS NUTR","doi":"10.1186/s12970-017-0173-z","enabled":true},{"id":"beta-alanina","name":"Beta-alanina","dose":"3.2 - 4.8 g diarios","timing":"Dividido en tomas diarias","evidence":"TREXLER ET AL., 2015 · J INT SOC SPORTS NUTR","doi":"10.1186/s12970-018-0248-7","enabled":true}],"protocols":[],"citations":[{"label":"MORTON ET AL., 2018 · BR J SPORTS MED","doi":"10.1136/bjsports-2017-097608"},{"label":"SCHOENFELD & ARAGON, 2018 · J INT SOC SPORTS NUTR","doi":"10.1186/s12970-018-0215-1"},{"label":"NORTON & LAYMAN, 2006 · J NUTR","doi":"10.1093/jn/136.2.533S"},{"label":"THOMAS, ERDMAN & BURKE, 2016 · MED SCI SPORTS EXERC","doi":"10.1249/MSS.0000000000000852"},{"label":"LOUCKS ET AL., 2011 · J SPORTS SCI","doi":"10.1080/02640414.2011.588958"}],"generatedLabel":"03/10/2026","hydration":{"offMl":3000,"onMl":4000},"training":{"time":"18:00","minutes":75},"trainingDays":5,"categories":{"lean-protein":"Carnes y pescados","eggs":"Huevos y lácteos","dairy-protein":"Huevos y lácteos","starch":"Almidones y cereales","cereal":"Almidones y cereales","sport-carb":"Carbos de entreno","fruit":"Frutas y vegetales","veg":"Frutas y vegetales","fat":"Grasas saludables","whey":"Suplementos"},"categoryOrder":["Carnes y pescados","Huevos y lácteos","Almidones y cereales","Carbos de entreno","Frutas y vegetales","Grasas saludables","Suplementos","Otros"],"manifest":{"name":"Coach JP Nutrition · Juan Pablo Armiñana","short_name":"Juan","description":"Plan nutricional personalizado · Coach JP Nutrition · High Performance System","start_url":"./","scope":"./","display":"standalone","orientation":"portrait","background_color":"#0B0F17","theme_color":"#0B0F17","lang":"es-AR","icons":[]},"scanPrompt":"Actúas como el analista visual de bioenergética de Coach JP (@coachjp.training).\nRecibís la foto de un plato. Identificá cada ingrediente visible y estimá su peso en gramos (peso cocido para carnes,\narroz, fideos, papa, batata) usando alimentos habituales de Argentina (ej: pechuga de pollo, cuadril, nalga, milanesa,\narroz blanco, fideos, papa, batata, huevo, ensalada mixta, palta, aceite de oliva, pan, queso, yogur).\nUsá referencias de tamaño (plato ~26 cm, cubiertos) para estimar porciones. Si algo no se ve con claridad, decilo en \"tips\".\nDevolvé OBLIGATORIAMENTE sólo un JSON válido, sin texto extra ni bloques de código:\n{ \"dishName\": string, \"items\": [{ \"food\": string, \"grams\": number, \"p\": number, \"c\": number, \"f\": number }],\n  \"score\": number (0-100, \"Puntuación Nutricional Táctica\": densidad proteica, calidad de carbohidratos,\n  presencia de vegetales, perfil de grasas y nivel de ultraprocesado), \"scoreReason\": string (1 frase),\n  \"tips\": [string] (máx. 3 ajustes concretos para el atleta) }\nAgregá a cada item \"leucine\" (g estimados de leucina para esa porción)."}</script>
 <script>
 (function () {
   'use strict';
@@ -252,7 +291,24 @@ h1{font-weight:700;font-size:27px;line-height:1.08;letter-spacing:-.02em;margin:
     panel: null,
     itab: 'ios',
     photo: null,
+    dialOpen: store.get('dialOpen', false),
+    extras: store.get('extras:' + today, {}),
+    aiCfg: false,
+    scan: null,
+    scanBusy: false,
+    scanErr: null,
+    phMeal: '',
+    phNote: '',
   };
+
+  // Clave de IA propia del atleta: vive SOLO en el localStorage de este dispositivo (nunca en el plan exportado).
+  var AI_KEY = 'coachjp-pwa:gemini-key';
+  function getKey() { try { return localStorage.getItem(AI_KEY) || ''; } catch (e) { return mem[AI_KEY] || ''; } }
+  function setKey(v) { mem[AI_KEY] = v; try { v ? localStorage.setItem(AI_KEY, v) : localStorage.removeItem(AI_KEY); } catch (e) {} }
+
+  function isStandalone() {
+    try { return !!(window.navigator.standalone || window.matchMedia('(display-mode: standalone)').matches); } catch (e) { return false; }
+  }
 
   var $ = function (s) { return document.querySelector(s); };
   var esc = function (s) {
@@ -266,24 +322,60 @@ h1{font-weight:700;font-size:27px;line-height:1.08;letter-spacing:-.02em;margin:
   var CHECK = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#38BDF8" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>';
 
   // ---------- Datos del día ----------
+  var MACRO_GROUPS = { p: ['lean-protein', 'dairy-protein', 'eggs'], c: ['cereal', 'starch', 'fruit', 'sport-carb'], f: ['fat'] };
+  var ANCHOR_LABEL = { p: 'proteína', c: 'carbohidratos', f: 'grasas' };
+  function kcal100(f) { return f.p * 4 + f.c * 4 + f.f * 9; }
+
+  // Origen de un swap (valores por 100 g): alimento de la base o alimento libre (IA) por macro principal.
+  function srcOf(it) {
+    if (it.foodId && D.foods[it.foodId]) {
+      var f = D.foods[it.foodId], an = D.anchors[f.group];
+      return { name: f.name, group: f.group, anchor: an, p: f.p, c: f.c, f: f.f, groups: [f.group] };
+    }
+    if (!(it.grams > 0)) return null;
+    var k = 100 / it.grams, p = it.p * k, c = it.c * k, fa = it.f * k;
+    if (p + c + fa <= 0) return null;
+    var mp = it.macroPrincipal;
+    var a = mp === 'protein' ? 'p' : mp === 'carbs' ? 'c' : mp === 'fat' ? 'f' : (p * 4 >= c * 4 && p * 4 >= fa * 9 ? 'p' : c * 4 >= fa * 9 ? 'c' : 'f');
+    return { name: it.food, group: null, anchor: a, p: p, c: c, f: fa, groups: MACRO_GROUPS[a] };
+  }
+
+  function eqGrams(src, grams, to) {
+    var a = src.anchor;
+    return to[a] > 0 ? Math.max(5, Math.round((src[a] * grams) / to[a] / 5) * 5) : grams;
+  }
+
+  // Equivalencias calculadas: mismo aporte del macro ancla, ordenadas por densidad calórica más parecida.
+  function swapOptions(orig) {
+    var src = orig && srcOf(orig);
+    if (!src) return [];
+    var dens = kcal100(src);
+    return Object.keys(D.foods)
+      .filter(function (id) { var f = D.foods[id]; return id !== orig.foodId && src.groups.indexOf(f.group) >= 0 && f[src.anchor] > 0; })
+      .map(function (id) { var f = D.foods[id]; return { id: id, f: f, g: eqGrams(src, orig.grams, f), d: Math.abs(kcal100(f) - dens) }; })
+      .sort(function (a, b) { return a.d - b.d; })
+      .slice(0, 6);
+  }
+
   function resolveItem(it) {
     var sw = S.swaps[it.id];
-    if (!sw || !D.foods[sw] || !it.foodId || !D.foods[it.foodId]) return it;
-    var from = D.foods[it.foodId];
+    if (!sw || !D.foods[sw]) return it;
+    var src = srcOf(it);
+    if (!src) return it;
     var to = D.foods[sw];
-    var anchor = D.anchors[from.group];
-    var base = from[anchor] * it.grams;
-    var grams = to[anchor] > 0 ? Math.round(base / to[anchor] / 5) * 5 : it.grams;
+    var grams = eqGrams(src, it.grams, to);
     var k = grams / 100;
-    return { id: it.id, foodId: sw, food: to.name, grams: grams, p: to.p * k, c: to.c * k, f: to.f * k, leucine: to.leucine * k, swappedFrom: from.name };
+    return { id: it.id, foodId: sw, food: to.name, grams: grams, p: to.p * k, c: to.c * k, f: to.f * k, leucine: to.leucine * k, swappedFrom: src.name };
   }
 
   function mealsFor(mode) {
-    return D.meals
-      .filter(function (m) { return m.day === 'both' || m.day === mode; })
+    var base = D.meals.filter(function (m) { return m.day === 'both' || m.day === mode; });
+    var out = S.extras.__out;
+    if (out && out.length) base = base.concat([{ id: '__out', name: 'Fuera del plan · análisis IA', time: out[0].at || '12:00', day: mode, role: 'snack', mps: false, items: [] }]);
+    return base
       .sort(function (a, b) { return a.time.localeCompare(b.time); })
       .map(function (m) {
-        var items = m.items.map(resolveItem);
+        var items = m.items.map(resolveItem).concat(S.extras[m.id] || []);
         var t = items.reduce(function (a, i) { return { p: a.p + i.p, c: a.c + i.c, f: a.f + i.f, l: a.l + i.leucine }; }, { p: 0, c: 0, f: 0, l: 0 });
         return { m: m, items: items, t: t, kcal: t.p * 4 + t.c * 4 + t.f * 9 };
       });
@@ -295,7 +387,7 @@ h1{font-weight:700;font-size:27px;line-height:1.08;letter-spacing:-.02em;margin:
     var q = grams / ref.unit.grams;
     if (q < 0.5) return '';
     var qq = Math.round(q * 2) / 2, lab = ref.unit.label;
-    return '≈ ' + n1(qq) + ' ' + esc(qq > 1 && lab.length > 3 ? lab + 's' : lab);
+    return '≈ ' + n1(qq) + ' ' + esc(qq > 1 && lab.length > 3 ? (/ón$/.test(lab) ? lab.slice(0, -2) + 'ones' : lab + 's') : lab);
   }
 
   function leuTip(need) {
@@ -354,33 +446,55 @@ h1{font-weight:700;font-size:27px;line-height:1.08;letter-spacing:-.02em;margin:
 
   function dial(mode, list) {
     var start = toMin(D.training.time), end = start + D.training.minutes, nowMin = now.getHours() * 60 + now.getMinutes();
+    var inWindow = mode === 'on' && nowMin >= start - 90 && nowMin <= end + 60;
+    var next = null;
+    list.forEach(function (x) { var t = toMin(x.m.time); if (!S.checks[x.m.id] && t >= nowMin && (!next || t < toMin(next.m.time))) next = x; });
+    var info = next
+      ? '<b>' + esc(next.m.name) + '</b><span>' + esc(next.m.time) + ' · en ' + fmtDur(toMin(next.m.time) - nowMin) + '</span>'
+      : '<b>Sin comidas pendientes</b><span>Plan del día al día</span>';
+    var rel = '';
+    if (mode === 'on') {
+      if (nowMin < start) rel = 'Sesión ' + esc(D.training.time) + ' · en ' + fmtDur(start - nowMin);
+      else if (nowMin <= end) rel = 'SESIÓN EN CURSO · quedan ' + fmtDur(end - nowMin);
+      else rel = 'Sesión terminada hace ' + fmtDur(nowMin - end);
+    }
+    var sess = mode === 'on'
+      ? '<em class="' + (inWindow ? 'hot' : '') + '">' + (inWindow ? 'VENTANA PERI-ENTRENO ACTIVA · ' : '') + rel + '</em>'
+      : '<em>DÍA OFF · sin sesión</em>';
+    var nowLbl = (now.getHours() < 10 ? '0' : '') + now.getHours() + ':' + (now.getMinutes() < 10 ? '0' : '') + now.getMinutes();
+
+    var h = '<section class="card dialcard"><button class="dial-hd" data-dial="1" aria-expanded="' + (S.dialOpen ? 'true' : 'false') + '"><span class="tag">[ DIAL PERI-ENTRENO · 24 H ]</span>';
+    h += '<span class="dial-peek">' + (S.dialOpen ? '' : (next ? esc(next.m.time) + ' · ' + esc(next.m.name) : 'Día completo')) + '</span><span class="chev' + (S.dialOpen ? ' up' : '') + '"></span></button>';
+    if (!S.dialOpen) return h + '</section>';
+
+    var hand = inWindow ? '#F97316' : '#38BDF8';
     var s = '<svg viewBox="0 0 220 220" aria-hidden="true"><circle cx="110" cy="110" r="86" fill="none" stroke="rgba(255,255,255,.07)" stroke-width="10"/>';
     if (mode === 'on') {
       s += '<path d="' + arc(86, (start - 90 + 1440) % 1440, (end + 60) % 1440) + '" fill="none" stroke="rgba(56,189,248,.22)" stroke-width="16"/>';
       s += '<path d="' + arc(86, start, end % 1440) + '" fill="none" stroke="#F97316" stroke-width="10" stroke-linecap="round"/>';
     }
     for (var hr = 0; hr < 24; hr++) {
-      var a = polar(hr % 6 ? 74 : 70, hr * 60), b = polar(78, hr * 60);
-      s += '<line x1="' + a[0].toFixed(1) + '" y1="' + a[1].toFixed(1) + '" x2="' + b[0].toFixed(1) + '" y2="' + b[1].toFixed(1) + '" stroke="rgba(148,163,184,' + (hr % 6 ? '.25' : '.6') + ')" stroke-width="1.2"/>';
-      if (hr % 6 === 0) { var t = polar(58, hr * 60); s += '<text x="' + t[0].toFixed(1) + '" y="' + (t[1] + 3.5).toFixed(1) + '" text-anchor="middle" class="dl">' + (hr < 10 ? '0' : '') + hr + '</text>'; }
+      var a = polar(hr % 6 ? 74 : 69, hr * 60), b = polar(78, hr * 60);
+      s += '<line x1="' + a[0].toFixed(1) + '" y1="' + a[1].toFixed(1) + '" x2="' + b[0].toFixed(1) + '" y2="' + b[1].toFixed(1) + '" stroke="rgba(148,163,184,' + (hr % 6 ? '.25' : '.7') + ')" stroke-width="' + (hr % 6 ? 1.2 : 1.8) + '"/>';
     }
+    [[0, '24:00'], [6, '06:00'], [12, '12:00'], [18, '18:00']].forEach(function (q) {
+      var t = polar(q[0] % 12 ? 50 : 56, q[0] * 60);
+      s += '<text x="' + t[0].toFixed(1) + '" y="' + (t[1] + 3.5).toFixed(1) + '" text-anchor="middle" class="dl">' + q[1] + '</text>';
+    });
     list.forEach(function (x) {
       var p = polar(86, toMin(x.m.time)), done = !!S.checks[x.m.id], peri = x.m.role === 'peri' || x.m.role === 'post';
       s += '<circle cx="' + p[0].toFixed(1) + '" cy="' + p[1].toFixed(1) + '" r="5.5" fill="' + (done ? '#38BDF8' : '#131B2A') + '" stroke="' + (peri ? '#F97316' : '#38BDF8') + '" stroke-width="2"/>';
     });
-    var hand = polar(48, nowMin);
-    s += '<line x1="110" y1="110" x2="' + hand[0].toFixed(1) + '" y2="' + hand[1].toFixed(1) + '" stroke="rgba(255,255,255,.75)" stroke-width="1.6" stroke-linecap="round"/><circle cx="110" cy="110" r="3" fill="#FFFFFF"/></svg>';
+    // Aguja de la hora actual: llega al anillo, con halo y color de la ventana (naranja = peri-entreno activo).
+    var tip = polar(86, nowMin);
+    s += '<line x1="110" y1="110" x2="' + tip[0].toFixed(1) + '" y2="' + tip[1].toFixed(1) + '" stroke="' + hand + '" stroke-width="2.4" stroke-linecap="round"/>';
+    s += '<circle cx="' + tip[0].toFixed(1) + '" cy="' + tip[1].toFixed(1) + '" r="9" fill="' + hand + '" opacity=".25"><animate attributeName="r" values="7;11;7" dur="2s" repeatCount="indefinite"/></circle>';
+    s += '<circle cx="' + tip[0].toFixed(1) + '" cy="' + tip[1].toFixed(1) + '" r="4.5" fill="' + hand + '" stroke="#0B0F17" stroke-width="1.5"/>';
+    s += '<circle cx="110" cy="110" r="3.5" fill="#FFFFFF"/>';
+    s += '<text x="110" y="132" text-anchor="middle" class="dnow" fill="' + hand + '">AHORA ' + nowLbl + '</text></svg>';
 
-    var next = null;
-    list.forEach(function (x) { var t = toMin(x.m.time); if (!S.checks[x.m.id] && t >= nowMin && (!next || t < toMin(next.m.time))) next = x; });
-    var info = next
-      ? '<b>' + esc(next.m.name) + '</b><span>' + esc(next.m.time) + ' · en ' + fmtDur(toMin(next.m.time) - nowMin) + '</span>'
-      : '<b>Sin comidas pendientes</b><span>Plan del día al día</span>';
-    var sess = mode === 'on'
-      ? (nowMin >= start - 90 && nowMin <= end + 60 ? '<em class="hot">VENTANA PERI-ENTRENO ACTIVA</em>' : '<em>Sesión ' + esc(D.training.time) + ' · ' + D.training.minutes + ' min</em>')
-      : '<em>DÍA OFF · sin sesión</em>';
-    var h = '<section class="card"><span class="tag">[ DIAL PERI-ENTRENO · 24 H ]</span><div class="dial">' + s + '<div class="dinfo"><small>PRÓXIMA INGESTA</small>' + info + sess + '</div></div>';
-    h += '<div class="legend"><span><i class="lg-s"></i>Sesión</span><span><i class="lg-w"></i>Ventana peri</span><span><i class="lg-m"></i>Comida</span><span><i class="lg-p"></i>Peri / post</span></div></section>';
+    h += '<div class="dial">' + s + '<div class="dinfo"><small>PRÓXIMA INGESTA</small>' + info + sess + '</div></div>';
+    h += '<div class="legend"><span><i class="lg-s"></i>Sesión</span><span><i class="lg-w"></i>Ventana peri</span><span><i class="lg-m"></i>Comida</span><span><i class="lg-p"></i>Peri / post</span><span><i class="lg-n"></i>Ahora</span></div></section>';
     return h;
   }
 
@@ -460,15 +574,50 @@ h1{font-weight:700;font-size:27px;line-height:1.08;letter-spacing:-.02em;margin:
       return open(bg, sh, h3);
     }
     if (S.panel === 'photo') {
-      var meals = mealsFor(S.mode);
-      var h4 = '<div class="tag">[ REVISIÓN DE COMIDA · FOTO → COACH ]</div><h3>Mandale tu plato al coach</h3>';
-      h4 += '<p class="muted" style="font-size:12.5px">Tu app no guarda claves de IA: la foto viaja a tu coach, que la analiza con el escáner de su consola y te ajusta el plan.</p>';
+      var meals = mealsFor(S.mode).filter(function (x) { return x.m.id !== '__out'; });
+      var key = getKey();
+      var h4 = '<button class="xclose" data-close="1" aria-label="Cerrar">✕</button><div class="tag">[ REVISIÓN DE COMIDA · FOTO ]</div><h3>' + (key ? 'Analizá tu plato con IA' : 'Mandale tu plato al coach') + '</h3>';
+      h4 += '<p class="muted" style="font-size:12.5px">' + (key
+        ? 'El análisis corre directo en tu celular con tu propia clave de Gemini. También podés mandarle la foto a tu coach.'
+        : 'La foto viaja a tu coach por WhatsApp. Si cargás tu propia clave de Gemini, la app analiza el plato acá mismo.') + '</p>';
       if (S.photo) h4 += '<img class="ph" src="' + S.photo.url + '" alt="Foto del plato">';
-      h4 += '<label class="lbl">¿Qué comida es?</label><select id="ph-meal" class="inp">' + meals.map(function (x) { return '<option>' + esc(x.m.time + ' · ' + x.m.name) + '</option>'; }).join('') + '<option>Fuera del plan</option></select>';
-      h4 += '<label class="lbl">Nota (opcional)</label><textarea id="ph-note" class="inp" rows="2" placeholder="Ej: comí afuera, cambié el arroz por papas"></textarea>';
-      h4 += '<div class="wbtns" style="margin-top:12px"><button data-photo="retake" class="ghost">Otra foto</button><button data-photo="send" class="cta">Enviar al coach</button></div>';
+      h4 += '<label class="lbl">¿Qué comida es?</label><select id="ph-meal" class="inp">' + meals.map(function (x) {
+        return '<option value="' + esc(x.m.id) + '"' + (S.phMeal === x.m.id ? ' selected' : '') + '>' + esc(x.m.time + ' · ' + x.m.name) + '</option>';
+      }).join('') + '<option value="__out"' + (S.phMeal === '__out' ? ' selected' : '') + '>Fuera del plan</option></select>';
+      h4 += '<label class="lbl">Nota (opcional)</label><textarea id="ph-note" class="inp" rows="2" placeholder="Ej: comí afuera, cambié el arroz por papas">' + esc(S.phNote) + '</textarea>';
+
+      if (S.scanBusy) h4 += '<div class="scan-busy"><span class="spin"></span>' + esc(S.scanBusy) + '</div>';
+      if (S.scanErr) h4 += '<div class="scan-err">⚠ ' + esc(S.scanErr) + '</div>';
+      if (S.scan) h4 += scanCard(S.scan);
+
+      h4 += '<div class="wbtns" style="margin-top:12px"><button data-photo="retake" class="ghost">Otra foto</button>';
+      if (key) h4 += '<button data-photo="ai" class="cta"' + (S.scanBusy ? ' disabled' : '') + '>[ ANALIZAR PLATO CON IA ]</button></div><div class="wbtns"><button data-photo="send" class="ghost">Enviar foto por WhatsApp al coach</button></div>';
+      else h4 += '<button data-photo="send" class="cta">Enviar foto por WhatsApp al coach</button></div>';
+
+      h4 += '<button class="cfg-link" data-aicfg="toggle">[ ⚙ CONFIGURAR MOTOR IA ]' + (key ? ' · CLAVE ACTIVA' : '') + '</button>';
+      if (S.aiCfg) {
+        h4 += '<div class="cfg"><label class="lbl" style="margin-top:0">API Key de Google Gemini</label><input id="ai-key" class="inp" type="password" autocomplete="off" spellcheck="false" placeholder="AIza..." value="' + esc(key) + '">';
+        h4 += '<p class="muted" style="font-size:11.5px;margin-top:6px">Se guarda solo en este dispositivo (localStorage), nunca se envía a tu coach ni queda en el plan. Modelo: gemini-3.5-flash-lite con respaldo gemini-3.5-flash. Creá tu clave gratis en aistudio.google.com.</p>';
+        h4 += '<div class="wbtns"><button data-aicfg="save">Guardar clave</button>' + (key ? '<button data-aicfg="clear" class="ghost">Borrar clave</button>' : '') + '</div></div>';
+      }
       return open(bg, sh, h4);
     }
+  }
+
+  function scanCard(r) {
+    var color = r.score >= 70 ? '#38BDF8' : r.score >= 40 ? '#F97316' : '#EF4444';
+    var h = '<div class="scan"><div class="row"><div style="min-width:0"><div class="tag">[ DESGLOSE DEL PLATO ]</div><b class="scan-nm">' + esc(r.dishName) + '</b></div>';
+    h += '<div class="score" style="border-color:' + color + ';color:' + color + '"><b>' + r.score + '</b><span>SCORE TÁCTICO</span></div></div>';
+    if (r.reason) h += '<p class="muted" style="font-size:12px;margin-top:4px">' + esc(r.reason) + '</p>';
+    h += '<div class="scan-items">';
+    r.items.forEach(function (i) {
+      h += '<div class="scan-it"><span class="g">' + n0(i.grams) + ' g</span><span class="fd">' + esc(i.food) + '</span><span class="mc">P' + n0(i.p) + ' C' + n0(i.c) + ' G' + n0(i.f) + '</span></div>';
+    });
+    var t = r.items.reduce(function (a, i) { return { p: a.p + i.p, c: a.c + i.c, f: a.f + i.f, l: a.l + i.leucine }; }, { p: 0, c: 0, f: 0, l: 0 });
+    h += '</div><div class="scan-tot"><b>' + n0(t.p * 4 + t.c * 4 + t.f * 9) + ' kcal</b><span>P ' + n0(t.p) + ' g</span><span>C ' + n0(t.c) + ' g</span><span>G ' + n0(t.f) + ' g</span><span class="' + (t.l >= D.threshold ? 'ok' : 'lo') + '">LEU ' + n1(t.l) + ' g</span></div>';
+    if (r.tips && r.tips.length) h += '<ul class="tips">' + r.tips.map(function (x) { return '<li>' + esc(x) + '</li>'; }).join('') + '</ul>';
+    h += '<button class="add-meal" data-photo="add">[ + AGREGAR A LA COMIDA SELECCIONADA ]</button></div>';
+    return h;
   }
 
   function renderSheet() {
@@ -478,18 +627,18 @@ h1{font-weight:700;font-size:27px;line-height:1.08;letter-spacing:-.02em;margin:
     var meal = D.meals.filter(function (m) { return m.id === S.sheet.meal; })[0];
     var orig = meal && meal.items.filter(function (i) { return i.id === S.sheet.item; })[0];
     if (!orig) { S.sheet = null; return renderSheet(); }
-    var from = D.foods[orig.foodId];
-    var anchor = D.anchors[from.group];
-    var cur = S.swaps[orig.id] || orig.foodId;
-    var label = { p: 'proteína', c: 'carbohidratos', f: 'grasas' }[anchor];
-    var h = '<div class="tag">[ SMART SWAP · ' + esc(D.groupLabels[from.group]) + ' ]</div>';
-    h += '<p class="muted" style="font-size:13px;margin:6px 0 4px">Cualquiera de estas opciones aporta lo mismo en ' + label + ' (' + n0(from[anchor] * orig.grams / 100) + ' g).</p>';
-    Object.keys(D.foods).forEach(function (id) {
-      var f = D.foods[id];
-      if (f.group !== from.group || !(f[anchor] > 0)) return;
-      var g = id === orig.foodId ? orig.grams : Math.round((from[anchor] * orig.grams) / f[anchor] / 5) * 5;
-      var k = g / 100;
-      h += '<button class="opt' + (id === cur ? ' cur' : '') + '" data-pick="' + id + '"><span class="g">' + n0(g) + ' g</span><span class="fd">' + esc(f.name) + (id === orig.foodId ? ' · original' : '') + '<span>' + (unitHintFor(id, g) ? unitHintFor(id, g) + ' · ' : '') + n0(f.p * k) + ' g proteína · ' + n0(f.c * k) + ' g carbos · ' + n0(f.f * k) + ' g grasas</span></span></button>';
+    var src = srcOf(orig);
+    if (!src) { S.sheet = null; return renderSheet(); }
+    var cur = S.swaps[orig.id];
+    var opts = swapOptions(orig);
+    var ok = function (f, g) { var k = g / 100; return n0(f.p * k) + ' P · ' + n0(f.c * k) + ' C · ' + n0(f.f * k) + ' G'; };
+    var h = '<button class="xclose" data-close="1" aria-label="Cerrar">✕</button><div class="tag">[ SMART SWAP · ' + esc(src.group ? D.groupLabels[src.group] : 'EQUIVALENCIA POR ' + ANCHOR_LABEL[src.anchor].toUpperCase()) + ' ]</div>';
+    h += '<h3>' + esc(src.name) + ' → equivalencias</h3>';
+    h += '<p class="muted" style="font-size:13px;margin:2px 0 4px">Todas aportan lo mismo en ' + ANCHOR_LABEL[src.anchor] + ' (' + n0(src[src.anchor] * orig.grams / 100) + ' g). Tocá una para reemplazar.</p>';
+    h += '<button class="opt' + (!cur ? ' cur' : '') + '" data-pick="__orig"><span class="g">' + n0(orig.grams) + ' g</span><span class="fd">' + esc(orig.food) + ' · original<span>' + n0(orig.p) + ' P · ' + n0(orig.c) + ' C · ' + n0(orig.f) + ' G</span></span></button>';
+    opts.forEach(function (o) {
+      var hint = unitHintFor(o.id, o.g);
+      h += '<button class="opt' + (o.id === cur ? ' cur' : '') + '" data-pick="' + esc(o.id) + '"><span class="g">' + n0(o.g) + ' g</span><span class="fd">' + esc(o.f.name) + '<span>' + (hint ? hint + ' · ' : '') + ok(o.f, o.g) + '</span></span><span class="go">›</span></button>';
     });
     open(bg, sh, h);
   }
@@ -507,6 +656,7 @@ h1{font-weight:700;font-size:27px;line-height:1.08;letter-spacing:-.02em;margin:
   function renderUnsafe() {
     var mode = S.mode;
     var tgt = D.targets[mode];
+    syncInstall();
     var list = mealsFor(mode);
     var eaten = list.reduce(function (a, x) {
       if (!S.checks[x.m.id]) return a;
@@ -524,7 +674,7 @@ h1{font-weight:700;font-size:27px;line-height:1.08;letter-spacing:-.02em;margin:
 
     h += '<section class="card"><div class="row"><span class="tag">[ TELEMETRÍA · ' + (mode === 'on' ? 'DÍA ON · ENTRENO' : 'DÍA OFF · DESCANSO') + ' ]</span><span class="hv">' + doneCount + '/' + list.length + ' COMIDAS</span></div>' + gauge(tgt, eaten) + '</section>';
 
-    h += '<div class="actions"><button data-panel="shop">[ LISTA DE COMPRAS ]</button><button data-panel="out">[ COMER FUERA ]</button><button data-photo="pick">[ FOTO → COACH ]</button></div>';
+    h += '<div class="actions"><button data-panel="shop">[ LISTA DE COMPRAS ]</button><button data-panel="out">[ COMER FUERA ]</button><button data-photo="pick">' + (getKey() ? '[ FOTO · IA ]' : '[ FOTO → COACH ]') + '</button></div>';
 
     h += hydration(mode);
     h += dial(mode, list);
@@ -540,9 +690,13 @@ h1{font-weight:700;font-size:27px;line-height:1.08;letter-spacing:-.02em;margin:
       h += '<section class="card meal' + (done ? ' done' : '') + '">';
       h += '<div class="hd"><span class="time">' + esc(m.time) + '</span><div><div class="nm">' + esc(m.name) + '</div><div class="mm">' + n0(x.kcal) + ' kcal · ' + n0(x.t.p) + ' g de proteína</div></div><button class="chk" data-check="' + m.id + '" aria-label="Marcar comida">' + CHECK + '</button></div>';
       h += '<div class="items">';
-      x.items.forEach(function (it) {
-        var canSwap = (it.foodId && D.foods[it.foodId] && D.swapGroups[D.foods[it.foodId].group] > 1) || it.swappedFrom;
+      x.items.forEach(function (it, idx) {
         var hint = unitHintFor(it.foodId, it.grams);
+        if (it.extra) {
+          h += '<div class="item extra"><span class="g">' + n0(it.grams) + ' g</span><span class="fd">' + esc(it.food) + '<s class="ia">Agregado por análisis IA · ' + n0(it.p) + ' P · ' + n0(it.c) + ' C · ' + n0(it.f) + ' G</s></span><button class="rm" data-rmextra="' + esc(m.id) + '|' + esc(it.id) + '" aria-label="Quitar">✕</button></div>';
+          return;
+        }
+        var canSwap = !!it.swappedFrom || swapOptions(m.items[idx]).length > 0;
         h += '<button class="item" ' + (canSwap ? 'data-swap="' + m.id + '|' + it.id + '"' : 'disabled') + '><span class="g">' + n0(it.grams) + ' g' + (hint ? '<em>' + hint + '</em>' : '') + '</span><span class="fd">' + esc(it.food) + (it.swappedFrom ? '<s>Reemplaza a: ' + esc(it.swappedFrom) + '</s>' : '') + '</span>' + (canSwap ? '<span class="sw">SWAP</span>' : '') + '</button>';
       });
       h += '</div>';
@@ -606,6 +760,7 @@ h1{font-weight:700;font-size:27px;line-height:1.08;letter-spacing:-.02em;margin:
       c.toBlob(function (blob) {
         if (S.photo) URL.revokeObjectURL(S.photo.url);
         S.photo = { blob: blob, url: URL.createObjectURL(blob) };
+        S.scan = null; S.scanErr = null; S.scanBusy = false;
         S.sheet = null; S.panel = 'photo'; renderSheet();
       }, 'image/jpeg', 0.82);
     };
@@ -614,8 +769,101 @@ h1{font-weight:700;font-size:27px;line-height:1.08;letter-spacing:-.02em;margin:
     photoInput.value = '';
   });
 
+  function mealLabel(id) {
+    if (id === '__out') return 'Fuera del plan';
+    var m = D.meals.filter(function (x) { return x.id === id; })[0];
+    return m ? m.time + ' · ' + m.name : '';
+  }
+
+  // ---------- Análisis de foto con IA en el dispositivo (Gemini, clave propia del atleta) ----------
+  var GEMINI_CHAIN = ['gemini-3.5-flash-lite', 'gemini-3.5-flash'];
+
+  function blobToB64(blob) {
+    return new Promise(function (res, rej) {
+      var r = new FileReader();
+      r.onload = function () { res(String(r.result).split(',')[1]); };
+      r.onerror = function () { rej(new Error('No se pudo leer la foto')); };
+      r.readAsDataURL(blob);
+    });
+  }
+
+  function callGemini(key, body, i) {
+    var model = GEMINI_CHAIN[i];
+    S.scanBusy = i === 0 ? 'ANALIZANDO PLATO · ' + model : '[ ! ] CAMBIANDO A MODELO DE RESPALDO (' + model + ')...';
+    renderSheet();
+    return fetch('https://generativelanguage.googleapis.com/v1beta/models/' + model + ':generateContent?key=' + encodeURIComponent(key), {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body),
+    }).then(function (res) {
+      return res.json().catch(function () { return {}; }).then(function (data) {
+        if (res.ok) {
+          var parts = (data.candidates && data.candidates[0] && data.candidates[0].content && data.candidates[0].content.parts) || [];
+          var text = parts.map(function (p) { return p.text || ''; }).join('');
+          if (!text) throw new Error(model + ' no devolvió contenido');
+          return text;
+        }
+        var msg = (data.error && data.error.message) || ('Gemini respondió ' + res.status);
+        var retry = res.status === 503 || res.status === 429 || res.status === 404 || res.status >= 500 || /UNAVAILABLE|high demand|overloaded|RESOURCE_EXHAUSTED|quota|no longer available|not found/i.test(msg);
+        if (retry && i + 1 < GEMINI_CHAIN.length) return callGemini(key, body, i + 1);
+        if (res.status === 400 && /api key|API_KEY/i.test(msg)) msg = 'La API Key no es válida. Revisala en [ ⚙ CONFIGURAR MOTOR IA ].';
+        throw new Error(msg);
+      });
+    });
+  }
+
+  function num(v, fb) { var n = typeof v === 'number' ? v : parseFloat(v); return isFinite(n) ? n : fb; }
+
+  function localScore(items) {
+    var t = items.reduce(function (a, i) { return { p: a.p + i.p, c: a.c + i.c, f: a.f + i.f, l: a.l + i.leucine }; }, { p: 0, c: 0, f: 0, l: 0 });
+    var kc = t.p * 4 + t.c * 4 + t.f * 9 || 1, ps = (t.p * 4) / kc, fs = (t.f * 9) / kc;
+    var veg = items.some(function (i) { return /ensalada|verdura|vegetal|tomate|lechuga|brocoli|zanahoria|zapallo|fruta|manzana|banana/i.test(i.food); });
+    var sc = Math.min(1, ps / 0.3) * 35 + Math.min(1, t.l / D.threshold) * 25 + (veg ? 20 : 0) + (fs <= 0.35 ? 20 : Math.max(0, 20 - (fs - 0.35) * 80));
+    return Math.round(Math.max(0, Math.min(100, sc)));
+  }
+
+  function analyzePhoto() {
+    var key = getKey();
+    if (!key || !S.photo || S.scanBusy) return;
+    S.scan = null; S.scanErr = null;
+    blobToB64(S.photo.blob)
+      .then(function (b64) {
+        return callGemini(key, {
+          contents: [{ role: 'user', parts: [{ text: D.scanPrompt }, { inline_data: { mime_type: 'image/jpeg', data: b64 } }] }],
+          generationConfig: { temperature: 0.2, responseMimeType: 'application/json' },
+        }, 0);
+      })
+      .then(function (text) {
+        var a = text.indexOf('{'), b = text.lastIndexOf('}');
+        var json = JSON.parse(a >= 0 ? text.slice(a, b + 1) : text);
+        var items = (json.items || []).filter(function (i) { return i && i.food && num(i.grams, 0) > 0; }).map(function (i) {
+          var p = Math.max(0, num(i.p, 0));
+          return { food: String(i.food), grams: Math.round(num(i.grams, 0)), p: p, c: Math.max(0, num(i.c, 0)), f: Math.max(0, num(i.f, 0)), leucine: Math.max(0, num(i.leucine, p * 0.08)) };
+        });
+        if (!items.length) throw new Error('No se reconocieron alimentos en la foto. Probá con otra toma, más cerca y con buena luz.');
+        var sc = num(json.score, NaN);
+        S.scan = { dishName: String(json.dishName || 'Plato analizado'), items: items, score: isFinite(sc) ? Math.round(Math.max(0, Math.min(100, sc))) : localScore(items), reason: json.scoreReason || '', tips: (json.tips || []).slice(0, 3) };
+      })
+      .catch(function (err) { S.scanErr = (err && err.message) || String(err); })
+      .then(function () { S.scanBusy = false; renderSheet(); });
+  }
+
+  function addScanToMeal() {
+    if (!S.scan) return;
+    var id = S.phMeal || (($('#ph-meal') || {}).value) || '__out';
+    var at = (now.getHours() < 10 ? '0' : '') + now.getHours() + ':' + (now.getMinutes() < 10 ? '0' : '') + now.getMinutes();
+    var stamp = Date.now().toString(36);
+    var add = S.scan.items.map(function (i, k) { return { id: 'ia-' + stamp + '-' + k, food: i.food, grams: i.grams, p: i.p, c: i.c, f: i.f, leucine: i.leucine, extra: true, at: at }; });
+    S.extras[id] = (S.extras[id] || []).concat(add);
+    store.set('extras:' + today, S.extras);
+    S.scan = null; S.panel = null;
+    haptic();
+    render();
+    toast(add.length + ' alimentos agregados a ' + mealLabel(id));
+  }
+
   function sendPhoto() {
-    var meal = ($('#ph-meal') || {}).value || '', note = ($('#ph-note') || {}).value || '';
+    var meal = mealLabel(S.phMeal || (($('#ph-meal') || {}).value) || ''), note = ($('#ph-note') || {}).value || '';
     var text = 'Revisión de comida · ' + D.athlete.name + '\nDía ' + S.mode.toUpperCase() + ' · ' + meal + (note ? '\nNota: ' + note : '') + '\n' + D.handle;
     var file = new File([S.photo.blob], 'plato-' + today + '.jpg', { type: 'image/jpeg' });
     if (navigator.canShare && navigator.canShare({ files: [file] })) {
@@ -630,9 +878,27 @@ h1{font-weight:700;font-size:27px;line-height:1.08;letter-spacing:-.02em;margin:
 
   // ---------- Eventos ----------
   document.addEventListener('click', function (e) {
-    var el = e.target.closest('[data-mode],[data-check],[data-swap],[data-pick],[data-itab],[data-panel],[data-cup],[data-water],[data-shopcheck],[data-copyshop],[data-shopreset],[data-photo],#sheet-bg,#install,#reset');
+    var el = e.target.closest('[data-mode],[data-check],[data-swap],[data-pick],[data-itab],[data-panel],[data-cup],[data-water],[data-shopcheck],[data-copyshop],[data-shopreset],[data-photo],[data-aicfg],[data-dial],[data-close],[data-rmextra],#sheet-bg,#install,#reset');
     if (!el) return;
     var ds = el.dataset;
+    if (ds.close) return closeSheet();
+    if (ds.dial) { S.dialOpen = !S.dialOpen; store.set('dialOpen', S.dialOpen); haptic(); return render(); }
+    if (ds.rmextra) {
+      var q = ds.rmextra.split('|');
+      S.extras[q[0]] = (S.extras[q[0]] || []).filter(function (x) { return x.id !== q[1]; });
+      if (!S.extras[q[0]].length) delete S.extras[q[0]];
+      store.set('extras:' + today, S.extras);
+      return render();
+    }
+    if (ds.aicfg === 'toggle') { S.aiCfg = !S.aiCfg; return renderSheet(); }
+    if (ds.aicfg === 'save') {
+      var kv = (($('#ai-key') || {}).value || '').trim();
+      if (!kv) return toast('Pegá tu API Key de Gemini');
+      setKey(kv); S.aiCfg = false; S.scanErr = null; toast('Motor IA activado en este dispositivo'); render(); return;
+    }
+    if (ds.aicfg === 'clear') { setKey(''); S.aiCfg = false; S.scan = null; toast('Clave borrada de este dispositivo'); render(); return; }
+    if (ds.photo === 'ai') return analyzePhoto();
+    if (ds.photo === 'add') return addScanToMeal();
     if (ds.itab) { S.itab = ds.itab; return renderSheet(); }
     if (ds.panel) { S.sheet = null; S.panel = ds.panel; return renderSheet(); }
     if (ds.cup !== undefined) {
@@ -664,13 +930,13 @@ h1{font-weight:700;font-size:27px;line-height:1.08;letter-spacing:-.02em;margin:
     } else if (ds.pick) {
       var meal = D.meals.filter(function (m) { return m.id === S.sheet.meal; })[0];
       var orig = meal.items.filter(function (it) { return it.id === S.sheet.item; })[0];
-      if (ds.pick === orig.foodId) delete S.swaps[orig.id];
+      if (ds.pick === '__orig' || ds.pick === orig.foodId) delete S.swaps[orig.id];
       else S.swaps[orig.id] = ds.pick;
       store.set('swaps', S.swaps);
       S.sheet = null;
       haptic();
       render();
-      toast('Alimento cambiado · porciones recalculadas');
+      toast(ds.pick === '__orig' ? 'Volviste al alimento original' : 'Alimento cambiado · porciones recalculadas');
     } else if (el.id === 'sheet-bg') {
       closeSheet();
     } else if (el.id === 'install') {
@@ -683,13 +949,27 @@ h1{font-weight:700;font-size:27px;line-height:1.08;letter-spacing:-.02em;margin:
     }
   });
 
+  document.addEventListener('input', function (e) {
+    if (e.target.id === 'ph-note') S.phNote = e.target.value;
+  });
+  document.addEventListener('change', function (e) {
+    if (e.target.id === 'ph-meal') S.phMeal = e.target.value;
+  });
+
   // ---------- Instalación PWA (prompt nativo o guía iOS / Android) ----------
+  // Instalada (pantalla de inicio): el botón [ INSTALAR APP ] desaparece por completo.
+  function syncInstall() {
+    var btn = document.getElementById('install');
+    var solo = isStandalone();
+    document.body.classList.toggle('standalone', solo);
+    if (btn) btn.hidden = solo;
+  }
+  try { window.matchMedia('(display-mode: standalone)').addEventListener('change', syncInstall); } catch (e) {}
   var deferred = null;
   window.addEventListener('beforeinstallprompt', function (e) { e.preventDefault(); deferred = e; });
-  window.addEventListener('appinstalled', function () { deferred = null; toast('App instalada · ya la tenés en tu inicio'); });
+  window.addEventListener('appinstalled', function () { deferred = null; syncInstall(); toast('App instalada · ya la tenés en tu inicio'); });
   function install() {
-    var standalone = window.matchMedia('(display-mode: standalone)').matches || navigator.standalone;
-    if (standalone) return toast('YA ESTÁ INSTALADA EN TU PANTALLA DE INICIO');
+    if (isStandalone()) return toast('YA ESTÁ INSTALADA EN TU PANTALLA DE INICIO');
     if (deferred) {
       deferred.prompt();
       deferred.userChoice.then(function () { deferred = null; });
