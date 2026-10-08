@@ -21,7 +21,7 @@
 :root{--bg:#0B0F17;--bg2:#0E1420;--panel:#131B2A;--line:rgba(255,255,255,.08);--line2:rgba(255,255,255,.12);--cyan:#38BDF8;--cyan-soft:rgba(56,189,248,.1);--cyan-edge:rgba(56,189,248,.2);--fire:#F97316;--fire-hot:#FF5E1E;--fire-soft:rgba(249,115,22,.1);--danger:#EF4444;--title:#FFFFFF;--text:#94A3B8;--micro:#64748B;--safe-top:env(safe-area-inset-top,0px);--safe-bot:env(safe-area-inset-bottom,0px)}
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 html,body{background:var(--bg);color:var(--text);font-family:Inter,"Geist Sans",system-ui,-apple-system,sans-serif;font-size:15px;line-height:1.45;-webkit-font-smoothing:antialiased}
-body{min-height:100vh;padding:calc(var(--safe-top) + 14px) 16px calc(var(--safe-bot) + 112px);background-image:linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px),linear-gradient(180deg,var(--bg),var(--bg2));background-size:28px 28px,28px 28px,auto;background-attachment:fixed}
+body{min-height:100vh;padding:max(1.25rem,calc(env(safe-area-inset-top) + 10px)) 16px calc(var(--safe-bot) + 112px);background-image:linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px),linear-gradient(180deg,var(--bg),var(--bg2));background-size:28px 28px,28px 28px,auto;background-attachment:fixed}
 button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .mono,.kcal,.prog,.bar .l span,.meal .time,.item .g,.opt .g,.ring .v b{font-family:"JetBrains Mono",ui-monospace,monospace;font-variant-numeric:tabular-nums}
 .tag{font-family:"JetBrains Mono",monospace;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--cyan)}
@@ -299,6 +299,28 @@ body.standalone .dock{display:none}
 /* ---- Reinicio sutil ---- */
 .reset-row{margin-top:18px;text-align:center}
 .reset-link{font-family:"JetBrains Mono",monospace;font-size:10px;letter-spacing:.06em;color:var(--micro);text-decoration:underline;text-underline-offset:3px;padding:6px}
+/* ---- iOS safe area: la hora / notch / Dynamic Island nunca tapan el contenido al scrollear ---- */
+body::before{content:"";position:fixed;top:0;left:0;right:0;height:env(safe-area-inset-top,0px);background:var(--bg);z-index:9;pointer-events:none}
+.sheet{max-height:calc(100vh - env(safe-area-inset-top,0px) - 24px)}
+/* ---- Escáner: avisos ---- */
+.scan-info{margin-top:12px;padding:10px 12px;border:1px solid var(--cyan-edge);border-radius:10px;background:var(--cyan-soft);font-size:12.5px;color:var(--title);line-height:1.45}
+.scan-info button{display:block;width:100%;margin-top:8px;padding:9px;border-radius:8px;background:var(--cyan);color:#0B0F17;font-family:"JetBrains Mono",monospace;font-size:10.5px;font-weight:700;letter-spacing:.06em}
+.scan-err .wbtns{margin-top:8px}
+/* ---- Lista de compras ---- */
+.wa-btn{display:block;width:100%;margin:10px 0 2px;padding:11px;border-radius:10px;border:1px solid rgba(37,211,102,.5);background:rgba(37,211,102,.12);color:#4ADE80;font-family:"JetBrains Mono",monospace;font-size:11px;font-weight:700;letter-spacing:.06em}
+/* ---- Comer fuera: escenarios 3-2-1 ---- */
+.scenes{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:10px}
+.scenes button{padding:11px 8px;border-radius:10px;border:1px solid var(--line2);background:var(--bg);color:var(--title);font-size:13px;font-weight:600;text-align:left}
+.scenes button.on{border-color:var(--fire);background:var(--fire-soft);color:#FDBA74}
+.scenes button:last-child:nth-child(odd){grid-column:span 2}
+.d321{margin-top:12px;padding:12px;border:1px solid var(--cyan-edge);border-radius:12px;background:var(--bg)}
+.d-row{display:flex;gap:10px;margin-top:10px}
+.d-row .n{flex:none;width:24px;height:24px;border-radius:7px;display:grid;place-items:center;font-family:"JetBrains Mono",monospace;font-size:12px;font-weight:700;color:var(--cyan);background:var(--cyan-soft);border:1px solid var(--cyan-edge)}
+.d-row b{display:block;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--title)}
+.d-row p{font-size:13.5px;color:var(--text);margin-top:2px}
+.d-row.avoid .n{color:var(--fire);background:var(--fire-soft);border-color:rgba(249,115,22,.35)}
+.item.free{border-left-color:var(--fire)}
+.item.free .fd s.ia{color:#FDBA74}
 </style>
 <script>
 /* Guardián de arranque: cualquier error de script se muestra como tarjeta visible (nunca pantalla negra). */
@@ -331,7 +353,7 @@ body.standalone .dock{display:none}
 <div id="sheet" class="sheet"></div>
 <div id="toast" class="toast"></div>
 <input id="photo" type="file" accept="image/*" capture="environment" hidden>
-<script id="cjp-data" type="application/json">{"slug":"juan-pablo-arminana","preview":false,"initialMode":"on","handle":"@coachjp.training","mark":"\u003csvg xmlns=\"http://www.w3.org/2000/svg\" width=\"40\" height=\"40\" viewBox=\"0 0 100 100\" data-id=\"hd\">\u003cpath d=\"M50 4 L89.8 27 L89.8 73 L50 96 L10.2 73 L10.2 27 Z\" fill=\"#0B0F17\" stroke=\"#38BDF8\" stroke-opacity=\".8\" stroke-width=\"2.6\" stroke-linejoin=\"round\"/>\u003cpath d=\"M50 10.5 L84.2 30.25 L84.2 69.75 L50 89.5 L15.8 69.75 L15.8 30.25 Z\" fill=\"none\" stroke=\"#38BDF8\" stroke-opacity=\".3\" stroke-width=\"1.4\" stroke-linejoin=\"round\"/>\u003cpolygon points=\"50,17 60.5,33 50,54\" fill=\"#FB923C\" stroke=\"#FB923C\" stroke-width=\".4\" stroke-linejoin=\"round\"/>\u003cpolygon points=\"60.5,33 66.5,47.5 50,54\" fill=\"#F97316\" stroke=\"#F97316\" stroke-width=\".4\" stroke-linejoin=\"round\"/>\u003cpolygon points=\"66.5,47.5 64.5,62 50,54\" fill=\"#EA580C\" stroke=\"#EA580C\" stroke-width=\".4\" stroke-linejoin=\"round\"/>\u003cpolygon points=\"64.5,62 57,72.5 50,54\" fill=\"#C2410C\" stroke=\"#C2410C\" stroke-width=\".4\" stroke-linejoin=\"round\"/>\u003cpolygon points=\"57,72.5 43,72.5 50,54\" fill=\"#9A3412\" stroke=\"#9A3412\" stroke-width=\".4\" stroke-linejoin=\"round\"/>\u003cpolygon points=\"43,72.5 35.5,62 50,54\" fill=\"#C2410C\" stroke=\"#C2410C\" stroke-width=\".4\" stroke-linejoin=\"round\"/>\u003cpolygon points=\"35.5,62 33.5,49.5 50,54\" fill=\"#EA580C\" stroke=\"#EA580C\" stroke-width=\".4\" stroke-linejoin=\"round\"/>\u003cpolygon points=\"33.5,49.5 40,39.5 50,54\" fill=\"#F97316\" stroke=\"#F97316\" stroke-width=\".4\" stroke-linejoin=\"round\"/>\u003cpolygon points=\"40,39.5 44,46 50,54\" fill=\"#FB923C\" stroke=\"#FB923C\" stroke-width=\".4\" stroke-linejoin=\"round\"/>\u003cpolygon points=\"44,46 46,31 50,54\" fill=\"#FDBA74\" stroke=\"#FDBA74\" stroke-width=\".4\" stroke-linejoin=\"round\"/>\u003cpolygon points=\"46,31 50,17 50,54\" fill=\"#FDBA74\" stroke=\"#FDBA74\" stroke-width=\".4\" stroke-linejoin=\"round\"/>\u003cpolygon points=\"50,43 54.5,54 50,63 45.5,54\" fill=\"#FFEDD5\" fill-opacity=\".92\"/>\u003ctext x=\"50\" y=\"71\" text-anchor=\"middle\" font-family=\"JetBrains Mono,ui-monospace,monospace\" font-weight=\"800\" font-size=\"6.4\" letter-spacing=\".6\" fill=\"#0B0F17\" fill-opacity=\".72\">JP\u003c/text>\u003c/svg>","markSm":"\u003csvg xmlns=\"http://www.w3.org/2000/svg\" width=\"34\" height=\"34\" viewBox=\"0 0 100 100\" data-id=\"sh\">\u003cpath d=\"M50 4 L89.8 27 L89.8 73 L50 96 L10.2 73 L10.2 27 Z\" fill=\"#0B0F17\" stroke=\"#38BDF8\" stroke-opacity=\".8\" stroke-width=\"2.6\" stroke-linejoin=\"round\"/>\u003cpath d=\"M50 10.5 L84.2 30.25 L84.2 69.75 L50 89.5 L15.8 69.75 L15.8 30.25 Z\" fill=\"none\" stroke=\"#38BDF8\" stroke-opacity=\".3\" stroke-width=\"1.4\" stroke-linejoin=\"round\"/>\u003cpolygon points=\"50,17 60.5,33 50,54\" fill=\"#FB923C\" stroke=\"#FB923C\" stroke-width=\".4\" stroke-linejoin=\"round\"/>\u003cpolygon points=\"60.5,33 66.5,47.5 50,54\" fill=\"#F97316\" stroke=\"#F97316\" stroke-width=\".4\" stroke-linejoin=\"round\"/>\u003cpolygon points=\"66.5,47.5 64.5,62 50,54\" fill=\"#EA580C\" stroke=\"#EA580C\" stroke-width=\".4\" stroke-linejoin=\"round\"/>\u003cpolygon points=\"64.5,62 57,72.5 50,54\" fill=\"#C2410C\" stroke=\"#C2410C\" stroke-width=\".4\" stroke-linejoin=\"round\"/>\u003cpolygon points=\"57,72.5 43,72.5 50,54\" fill=\"#9A3412\" stroke=\"#9A3412\" stroke-width=\".4\" stroke-linejoin=\"round\"/>\u003cpolygon points=\"43,72.5 35.5,62 50,54\" fill=\"#C2410C\" stroke=\"#C2410C\" stroke-width=\".4\" stroke-linejoin=\"round\"/>\u003cpolygon points=\"35.5,62 33.5,49.5 50,54\" fill=\"#EA580C\" stroke=\"#EA580C\" stroke-width=\".4\" stroke-linejoin=\"round\"/>\u003cpolygon points=\"33.5,49.5 40,39.5 50,54\" fill=\"#F97316\" stroke=\"#F97316\" stroke-width=\".4\" stroke-linejoin=\"round\"/>\u003cpolygon points=\"40,39.5 44,46 50,54\" fill=\"#FB923C\" stroke=\"#FB923C\" stroke-width=\".4\" stroke-linejoin=\"round\"/>\u003cpolygon points=\"44,46 46,31 50,54\" fill=\"#FDBA74\" stroke=\"#FDBA74\" stroke-width=\".4\" stroke-linejoin=\"round\"/>\u003cpolygon points=\"46,31 50,17 50,54\" fill=\"#FDBA74\" stroke=\"#FDBA74\" stroke-width=\".4\" stroke-linejoin=\"round\"/>\u003cpolygon points=\"50,43 54.5,54 50,63 45.5,54\" fill=\"#FFEDD5\" fill-opacity=\".92\"/>\u003ctext x=\"50\" y=\"71\" text-anchor=\"middle\" font-family=\"JetBrains Mono,ui-monospace,monospace\" font-weight=\"800\" font-size=\"6.4\" letter-spacing=\".6\" fill=\"#0B0F17\" fill-opacity=\".72\">JP\u003c/text>\u003c/svg>","shieldSm":"\u003csvg xmlns=\"http://www.w3.org/2000/svg\" width=\"26\" height=\"31\" viewBox=\"0 0 100 120\">\u003cdefs>\u003clinearGradient id=\"g\" x1=\"0\" y1=\"0\" x2=\"0\" y2=\"1\">\u003cstop offset=\"0\" stop-color=\"#FFE45C\"/>\u003cstop offset=\"1\" stop-color=\"#F2C200\"/>\u003c/linearGradient>\u003c/defs>\u003cpath d=\"M50 3 L91 16 Q95 17.5 95 22 L95 57 C95 86 75 105 50 117 C25 105 5 86 5 57 L5 22 Q5 17.5 9 16 Z\" fill=\"url(#g)\" stroke=\"#FFF3A6\" stroke-opacity=\".55\" stroke-width=\"1.5\"/>\u003cpath d=\"M50 12 L85 23 L85 57 C85 80 69 96 50 106 C31 96 15 80 15 57 L15 23 Z\" fill=\"none\" stroke=\"#7A6500\" stroke-opacity=\".55\" stroke-width=\"2.5\"/>\u003cpath d=\"M57 25 L31 66 L47 66 L41 97 L70 51 L53 51 L61 25 Z\" fill=\"#0B0B0B\"/>\u003c/svg>","athlete":{"name":"juan pablo armiñana","weightKg":88,"phase":"Recomposición Agresiva","discipline":"CROSSFIT & HYROX"},"coachNote":"Controla el picoteo matutino priorizando líquidos y densidad proteica en el desayuno. Mantén el peso neto de los alimentos indicado y ajusta las milanesas estrictamente al horno.","targets":{"on":{"kcal":2745,"p":195,"c":300,"f":85},"off":{"kcal":2475,"p":195,"c":210,"f":95}},"threshold":2.7,"meals":[{"id":"fxkjtdc6","name":"Desayuno Táctico","time":"05:30","day":"both","role":"breakfast","items":[{"id":"bd8ru7jo","foodId":"huevo","food":"Huevo entero","grams":150,"p":18.9,"c":1,"f":14.3,"leucine":1.64},{"id":"d6fu7mwl","foodId":"avena-instantanea","food":"Avena instantánea","grams":60,"p":7.2,"c":39.6,"f":3.9,"leucine":0.57},{"id":"x08e6zbq","foodId":"banana","food":"Banana","grams":100,"p":1.1,"c":23,"f":0.3,"leucine":0.07},{"id":"p396h9pc","foodId":"yogur","food":"Yogur griego descremado","grams":200,"p":20,"c":8,"f":0.8,"leucine":2}],"mps":true},{"id":"3e03vqqa","name":"Almuerzo Proteico","time":"12:30","day":"both","role":"lunch","items":[{"id":"o5dp8n5x","foodId":"pollo","food":"Pechuga de pollo (cocida)","grams":180,"p":55.8,"c":0,"f":6.5,"leucine":4.5},{"id":"f9qvry2j","foodId":"arroz","food":"Arroz blanco (cocido)","grams":250,"p":6.8,"c":70,"f":0.8,"leucine":0.55},{"id":"lpuojyiy","foodId":"palta","food":"Palta","grams":150,"p":3,"c":12.8,"f":22.5,"leucine":0.21},{"id":"6wrc1iqy","foodId":"oliva","food":"Aceite de oliva extra virgen","grams":10,"p":0,"c":0,"f":10,"leucine":0}],"mps":true},{"id":"atge0dvw","name":"Pre-Entreno / Merienda ON","time":"15:15","day":"on","role":"peri","items":[{"id":"178akc3h","foodId":"tutucas","food":"Tutucas de maíz","grams":55,"p":4.1,"c":46.2,"f":0.8,"leucine":0.5},{"id":"7aypozsr","foodId":"untable","food":"Queso untable descremado","grams":30,"p":3,"c":1.2,"f":0.3,"leucine":0.29}],"mps":false},{"id":"5uytcq1y","name":"Merienda Táctica OFF","time":"16:00","day":"off","role":"snack","items":[{"id":"j3cbhujn","foodId":"avena","food":"Avena arrollada","grams":71,"p":9.2,"c":42.6,"f":5,"leucine":0.71},{"id":"mlwaqd9w","foodId":"nueces","food":"Nueces","grams":5,"p":0.8,"c":0.7,"f":3.3,"leucine":0.06}],"mps":false},{"id":"oiuit991","name":"Post-Entreno","time":"18:00","day":"on","role":"post","items":[{"id":"po7y258g","foodId":"nalga","food":"Nalga / peceto (cocido)","grams":180,"p":54,"c":0,"f":9,"leucine":4.32},{"id":"5iuh945h","foodId":"papa","food":"Papa (hervida)","grams":123,"p":2.3,"c":24.6,"f":0.1,"leucine":0.12},{"id":"xnaiyg0o","foodId":"manzana","food":"Manzana","grams":165,"p":0.5,"c":23.1,"f":0.3,"leucine":0.02}],"mps":true},{"id":"oravqiuk","name":"Cena de Cierre ON","time":"21:00","day":"on","role":"dinner","items":[{"id":"ckt53lko","foodId":"pollo","food":"Pechuga de pollo (cocida)","grams":160,"p":49.6,"c":0,"f":5.8,"leucine":4},{"id":"9acut3kv","foodId":"vegetales","food":"Vegetales mixtos / ensalada","grams":200,"p":3,"c":8,"f":0.4,"leucine":0.16},{"id":"qkg826q5","foodId":"oliva","food":"Aceite de oliva extra virgen","grams":5,"p":0,"c":0,"f":5,"leucine":0},{"id":"mtfeojvt","foodId":"huevo","food":"Huevo entero","grams":50,"p":6.3,"c":0.4,"f":4.8,"leucine":0.55}],"mps":true},{"id":"ecaz7uhp","name":"Cena de Cierre OFF","time":"21:00","day":"off","role":"dinner","items":[{"id":"ob6nba4h","foodId":"pollo","food":"Pechuga de pollo (cocida)","grams":200,"p":62,"c":0,"f":7.2,"leucine":5},{"id":"iqrfmvdv","foodId":"palta","food":"Palta","grams":50,"p":1,"c":4.3,"f":7.5,"leucine":0.07},{"id":"mi2r28du","foodId":"huevo","food":"Huevo entero","grams":100,"p":12.6,"c":0.7,"f":9.5,"leucine":1.09},{"id":"9shvdlah","foodId":"oliva","food":"Aceite de oliva extra virgen","grams":5,"p":0,"c":0,"f":5,"leucine":0}],"mps":true}],"foods":{"pollo":{"id":"pollo","name":"Pechuga de pollo (cocida)","group":"lean-protein","p":31,"c":0,"f":3.6,"leucine":2.5},"cuadril":{"id":"cuadril","name":"Cuadril magro (cocido)","group":"lean-protein","p":29,"c":0,"f":7,"leucine":2.35},"lomo":{"id":"lomo","name":"Lomo vacuno (cocido)","group":"lean-protein","p":28,"c":0,"f":8,"leucine":2.25},"nalga":{"id":"nalga","name":"Nalga / peceto (cocido)","group":"lean-protein","p":30,"c":0,"f":5,"leucine":2.4},"picada":{"id":"picada","name":"Carne picada especial 5% (cocida)","group":"lean-protein","p":26,"c":0,"f":10,"leucine":2.1},"merluza":{"id":"merluza","name":"Merluza (cocida)","group":"lean-protein","p":23,"c":0,"f":1.5,"leucine":1.9},"atun":{"id":"atun","name":"Atún al natural (escurrido)","group":"lean-protein","p":26,"c":0,"f":1,"leucine":2.1},"cerdo":{"id":"cerdo","name":"Bondiola / carré magro de cerdo (cocido)","group":"lean-protein","p":27,"c":0,"f":9,"leucine":2.15},"huevo":{"id":"huevo","name":"Huevo entero","group":"eggs","unit":{"label":"u","grams":50},"p":12.6,"c":0.7,"f":9.5,"leucine":1.09},"claras":{"id":"claras","name":"Claras de huevo","group":"eggs","unit":{"label":"clara","grams":33},"p":10.9,"c":0.7,"f":0.2,"leucine":0.95},"ricota":{"id":"ricota","name":"Ricota magra","group":"dairy-protein","p":11,"c":3.5,"f":4,"leucine":1.15},"yogur":{"id":"yogur","name":"Yogur griego descremado","group":"dairy-protein","p":10,"c":4,"f":0.4,"leucine":1},"untable":{"id":"untable","name":"Queso untable descremado","group":"dairy-protein","p":10,"c":4,"f":1,"leucine":0.98},"leche":{"id":"leche","name":"Leche descremada","group":"dairy-protein","unit":{"label":"taza","grams":250},"p":3.3,"c":5,"f":0.1,"leucine":0.33},"whey":{"id":"whey","name":"Whey protein (concentrado)","group":"whey","unit":{"label":"scoop","grams":30},"p":78,"c":7,"f":6,"leucine":8.5},"avena":{"id":"avena","name":"Avena arrollada","group":"cereal","p":13,"c":60,"f":7,"leucine":1},"pan":{"id":"pan","name":"Pan integral","group":"cereal","unit":{"label":"rebanada","grams":30},"p":9,"c":45,"f":3.5,"leucine":0.65},"galletas-arroz":{"id":"galletas-arroz","name":"Galletas de arroz inflado","group":"cereal","unit":{"label":"u","grams":9},"p":8,"c":80,"f":3,"leucine":0.6,"equiv":["tutucas","tostadas-arroz"]},"tutucas":{"id":"tutucas","name":"Tutucas de maíz","group":"cereal","unit":{"label":"porción","grams":30},"p":7.5,"c":84,"f":1.5,"leucine":0.9,"equiv":["copos-maiz","galletas-arroz","avena-instantanea","tostadas-arroz"]},"copos-maiz":{"id":"copos-maiz","name":"Copos de maíz sin azúcar","group":"cereal","unit":{"label":"porción","grams":30},"p":7,"c":84,"f":0.9,"leucine":0.85,"equiv":["tutucas","galletas-arroz","avena-instantanea"]},"avena-instantanea":{"id":"avena-instantanea","name":"Avena instantánea","group":"cereal","p":12,"c":66,"f":6.5,"leucine":0.95,"equiv":["avena","tutucas","copos-maiz"]},"tostadas-arroz":{"id":"tostadas-arroz","name":"Tostadas de arroz","group":"cereal","unit":{"label":"u","grams":8},"p":7.5,"c":81,"f":2.8,"leucine":0.6,"equiv":["galletas-arroz","tutucas"]},"arroz":{"id":"arroz","name":"Arroz blanco (cocido)","group":"starch","p":2.7,"c":28,"f":0.3,"leucine":0.22},"yamani":{"id":"yamani","name":"Arroz yamaní (cocido)","group":"starch","p":2.6,"c":23,"f":0.9,"leucine":0.21},"fideos":{"id":"fideos","name":"Fideos (cocidos)","group":"starch","p":5.8,"c":31,"f":0.9,"leucine":0.45},"batata":{"id":"batata","name":"Batata (cocida)","group":"starch","p":1.6,"c":20,"f":0.1,"leucine":0.09},"papa":{"id":"papa","name":"Papa (hervida)","group":"starch","p":1.9,"c":20,"f":0.1,"leucine":0.1},"lentejas":{"id":"lentejas","name":"Lentejas (cocidas)","group":"starch","p":9,"c":20,"f":0.4,"leucine":0.65},"banana":{"id":"banana","name":"Banana","group":"fruit","unit":{"label":"u","grams":120},"p":1.1,"c":23,"f":0.3,"leucine":0.07},"manzana":{"id":"manzana","name":"Manzana","group":"fruit","unit":{"label":"u","grams":180},"p":0.3,"c":14,"f":0.2,"leucine":0.01},"frutillas":{"id":"frutillas","name":"Frutillas","group":"fruit","p":0.7,"c":7.7,"f":0.3,"leucine":0.04},"miel":{"id":"miel","name":"Miel","group":"sport-carb","p":0.3,"c":82,"f":0,"leucine":0},"isotonica":{"id":"isotonica","name":"Bebida isotónica","group":"sport-carb","unit":{"label":"botella","grams":500},"p":0,"c":6,"f":0,"leucine":0},"dulce-membrillo":{"id":"dulce-membrillo","name":"Dulce de membrillo","group":"sport-carb","p":0.4,"c":65,"f":0,"leucine":0},"mani":{"id":"mani","name":"Pasta de maní","group":"fat","p":25,"c":16,"f":50,"leucine":1.6},"palta":{"id":"palta","name":"Palta","group":"fat","p":2,"c":8.5,"f":15,"leucine":0.14},"oliva":{"id":"oliva","name":"Aceite de oliva extra virgen","group":"fat","unit":{"label":"cda","grams":13},"p":0,"c":0,"f":100,"leucine":0},"nueces":{"id":"nueces","name":"Nueces","group":"fat","p":15,"c":14,"f":65,"leucine":1.17},"alfajor-proteico":{"id":"alfajor-proteico","name":"Alfajor proteico","group":"protein-snack","unit":{"label":"u","grams":50},"p":30,"c":42,"f":15,"leucine":2.5,"equiv":["barra-proteica","yogur-proteico"]},"barra-proteica":{"id":"barra-proteica","name":"Barra proteica","group":"protein-snack","unit":{"label":"u","grams":46},"p":33,"c":36,"f":13,"leucine":2.7,"equiv":["alfajor-proteico","yogur-proteico"]},"yogur-proteico":{"id":"yogur-proteico","name":"Yogur bebible proteico (alto en proteínas)","group":"dairy-protein","unit":{"label":"botella","grams":250},"p":6,"c":5.5,"f":0.4,"leucine":0.6,"equiv":["yogur","leche"]},"queso-light":{"id":"queso-light","name":"Queso cremoso light","group":"dairy-protein","p":22,"c":2,"f":14,"leucine":2,"equiv":["ricota","untable"]},"galletitas-agua":{"id":"galletitas-agua","name":"Galletitas de agua","group":"cereal","unit":{"label":"u","grams":6},"p":10,"c":70,"f":12,"leucine":0.75,"equiv":["galletas-arroz","tostadas-arroz","pan"]},"pan-lactal":{"id":"pan-lactal","name":"Pan lactal integral","group":"cereal","unit":{"label":"rebanada","grams":25},"p":10,"c":43,"f":4,"leucine":0.7,"equiv":["pan","tostadas-arroz"]},"barrita-cereal":{"id":"barrita-cereal","name":"Barrita de cereal","group":"sport-carb","unit":{"label":"u","grams":23},"p":6,"c":70,"f":9,"leucine":0.4,"equiv":["banana","dulce-membrillo"]},"vegetales":{"id":"vegetales","name":"Vegetales mixtos / ensalada","group":"veg","p":1.5,"c":4,"f":0.2,"leucine":0.08}},"anchors":{"lean-protein":"p","dairy-protein":"p","eggs":"p","whey":"p","starch":"c","cereal":"c","fruit":"c","fat":"f","veg":"c","sport-carb":"c","protein-snack":"p"},"groupLabels":{"lean-protein":"Proteína magra","dairy-protein":"Lácteo proteico","eggs":"Huevo","whey":"Suplemento proteico","starch":"Almidón","cereal":"Almidón / Carbos rápidos / Cereales","fruit":"Fruta","fat":"Grasa","veg":"Vegetal","sport-carb":"Carbo rápido","protein-snack":"Snack proteico comercial"},"swapGroups":{"lean-protein":8,"eggs":2,"dairy-protein":6,"whey":1,"cereal":9,"starch":6,"fruit":3,"sport-carb":4,"fat":4,"protein-snack":2,"veg":1},"supplements":[{"id":"creatina","name":"Creatina monohidrato","dose":"5 g/día","timing":"Post-entreno o cualquier momento","evidence":"KREIDER ET AL., 2017 · J INT SOC SPORTS NUTR","doi":"10.1186/s12970-017-0173-z","enabled":true},{"id":"beta-alanina","name":"Beta-alanina","dose":"3.2 - 6.4 g/día","timing":"Dividido en tomas diarias","evidence":"TREXLER ET AL., 2015 · J INT SOC SPORTS NUTR","doi":"10.1186/s12970-018-0248-7","enabled":true},{"id":"cafeina","name":"Cafeína anhidra","dose":"200 mg (3 mg/kg)","timing":"30-45 min antes del WOD (Días ON)","evidence":"GUEST ET AL., 2021 · J INT SOC SPORTS NUTR","doi":"10.1186/s12970-020-00383-4","enabled":true}],"protocols":[],"citations":[{"label":"MORTON ET AL., 2018 · BR J SPORTS MED","doi":"10.1136/bjsports-2017-097608"},{"label":"SCHOENFELD & ARAGON, 2018 · J INT SOC SPORTS NUTR","doi":"10.1186/s12970-018-0215-1"},{"label":"NORTON & LAYMAN, 2006 · J NUTR","doi":"10.1093/jn/136.2.533S"},{"label":"THOMAS, ERDMAN & BURKE, 2016 · MED SCI SPORTS EXERC","doi":"10.1249/MSS.0000000000000852"},{"label":"LOUCKS ET AL., 2011 · J SPORTS SCI","doi":"10.1080/02640414.2011.588958"}],"generatedLabel":"08/10/2026","hydration":{"offMl":3000,"onMl":4000},"training":{"time":"20:00","minutes":240},"trainingDays":5,"trainingWeekdays":[1,2,3,4,5],"categories":{"lean-protein":"Carnes y pescados","eggs":"Huevos y lácteos","dairy-protein":"Huevos y lácteos","starch":"Almidones y cereales","cereal":"Almidones y cereales","sport-carb":"Carbos de entreno","protein-snack":"Snacks proteicos","fruit":"Frutas y vegetales","veg":"Frutas y vegetales","fat":"Grasas saludables","whey":"Suplementos"},"categoryOrder":["Carnes y pescados","Huevos y lácteos","Snacks proteicos","Almidones y cereales","Carbos de entreno","Frutas y vegetales","Grasas saludables","Suplementos","Otros"],"manifest":{"name":"Coach JP Nutrition · juan pablo armiñana","short_name":"juan","description":"Plan nutricional personalizado · Coach JP Nutrition · High Performance System","start_url":"./","scope":"./","display":"standalone","orientation":"portrait","background_color":"#0B0F17","theme_color":"#0B0F17","lang":"es-AR","icons":[]},"scanPrompt":"Actúas como el analista visual de bioenergética de Coach JP (@coachjp.training).\nRecibís la foto de un plato. Identificá cada ingrediente visible y estimá su peso en gramos (peso cocido para carnes,\narroz, fideos, papa, batata) usando alimentos habituales de Argentina (ej: pechuga de pollo, cuadril, nalga, milanesa,\narroz blanco, fideos, papa, batata, huevo, ensalada mixta, palta, aceite de oliva, pan, queso, yogur).\nUsá referencias de tamaño (plato ~26 cm, cubiertos) para estimar porciones. Si algo no se ve con claridad, decilo en \"tips\".\nDevolvé OBLIGATORIAMENTE sólo un JSON válido, sin texto extra ni bloques de código:\n{ \"dishName\": string, \"items\": [{ \"food\": string, \"grams\": number, \"p\": number, \"c\": number, \"f\": number }],\n  \"score\": number (0-100, \"Puntuación Nutricional Táctica\": densidad proteica, calidad de carbohidratos,\n  presencia de vegetales, perfil de grasas y nivel de ultraprocesado), \"scoreReason\": string (1 frase),\n  \"tips\": [string] (máx. 3 ajustes concretos para el atleta) }\nAgregá a cada item \"leucine\" (g estimados de leucina para esa porción).","labelPrompt":"Actúas como lector de etiquetas de Coach JP. Recibís la foto de la TABLA DE INFORMACIÓN NUTRICIONAL de un producto envasado\n(formato argentino / Mercosur: \"Porción X g\", \"Valor energético\", \"Carbohidratos\", \"Proteínas\", \"Grasas totales\", \"Sodio\").\nLeé los valores tal como figuran. Si la tabla trae columna por 100 g, usala; si sólo trae por porción, completá perServing.\nDevolvé OBLIGATORIAMENTE sólo un JSON válido, sin texto extra:\n{ \"productName\": string, \"brand\": string, \"servingG\": number,\n  \"per100\": { \"kcal\": number, \"p\": number, \"c\": number, \"f\": number, \"sodiumMg\": number },\n  \"perServing\": { \"kcal\": number, \"p\": number, \"c\": number, \"f\": number, \"sodiumMg\": number } }\nUsá null en lo que no se lea con claridad. Kcal en kcal (no kJ)."}</script>
+<script id="cjp-data" type="application/json">{"slug":"juan-pablo-arminana","preview":false,"initialMode":"on","handle":"@coachjp.training","mark":"\u003csvg xmlns=\"http://www.w3.org/2000/svg\" width=\"40\" height=\"40\" viewBox=\"0 0 100 100\" data-id=\"hd\">\u003cpath d=\"M50 4 L89.8 27 L89.8 73 L50 96 L10.2 73 L10.2 27 Z\" fill=\"#0B0F17\" stroke=\"#38BDF8\" stroke-opacity=\".8\" stroke-width=\"2.6\" stroke-linejoin=\"round\"/>\u003cpath d=\"M50 10.5 L84.2 30.25 L84.2 69.75 L50 89.5 L15.8 69.75 L15.8 30.25 Z\" fill=\"none\" stroke=\"#38BDF8\" stroke-opacity=\".3\" stroke-width=\"1.4\" stroke-linejoin=\"round\"/>\u003cpolygon points=\"50,17 60.5,33 50,54\" fill=\"#FB923C\" stroke=\"#FB923C\" stroke-width=\".4\" stroke-linejoin=\"round\"/>\u003cpolygon points=\"60.5,33 66.5,47.5 50,54\" fill=\"#F97316\" stroke=\"#F97316\" stroke-width=\".4\" stroke-linejoin=\"round\"/>\u003cpolygon points=\"66.5,47.5 64.5,62 50,54\" fill=\"#EA580C\" stroke=\"#EA580C\" stroke-width=\".4\" stroke-linejoin=\"round\"/>\u003cpolygon points=\"64.5,62 57,72.5 50,54\" fill=\"#C2410C\" stroke=\"#C2410C\" stroke-width=\".4\" stroke-linejoin=\"round\"/>\u003cpolygon points=\"57,72.5 43,72.5 50,54\" fill=\"#9A3412\" stroke=\"#9A3412\" stroke-width=\".4\" stroke-linejoin=\"round\"/>\u003cpolygon points=\"43,72.5 35.5,62 50,54\" fill=\"#C2410C\" stroke=\"#C2410C\" stroke-width=\".4\" stroke-linejoin=\"round\"/>\u003cpolygon points=\"35.5,62 33.5,49.5 50,54\" fill=\"#EA580C\" stroke=\"#EA580C\" stroke-width=\".4\" stroke-linejoin=\"round\"/>\u003cpolygon points=\"33.5,49.5 40,39.5 50,54\" fill=\"#F97316\" stroke=\"#F97316\" stroke-width=\".4\" stroke-linejoin=\"round\"/>\u003cpolygon points=\"40,39.5 44,46 50,54\" fill=\"#FB923C\" stroke=\"#FB923C\" stroke-width=\".4\" stroke-linejoin=\"round\"/>\u003cpolygon points=\"44,46 46,31 50,54\" fill=\"#FDBA74\" stroke=\"#FDBA74\" stroke-width=\".4\" stroke-linejoin=\"round\"/>\u003cpolygon points=\"46,31 50,17 50,54\" fill=\"#FDBA74\" stroke=\"#FDBA74\" stroke-width=\".4\" stroke-linejoin=\"round\"/>\u003cpolygon points=\"50,43 54.5,54 50,63 45.5,54\" fill=\"#FFEDD5\" fill-opacity=\".92\"/>\u003ctext x=\"50\" y=\"71\" text-anchor=\"middle\" font-family=\"JetBrains Mono,ui-monospace,monospace\" font-weight=\"800\" font-size=\"6.4\" letter-spacing=\".6\" fill=\"#0B0F17\" fill-opacity=\".72\">JP\u003c/text>\u003c/svg>","markSm":"\u003csvg xmlns=\"http://www.w3.org/2000/svg\" width=\"34\" height=\"34\" viewBox=\"0 0 100 100\" data-id=\"sh\">\u003cpath d=\"M50 4 L89.8 27 L89.8 73 L50 96 L10.2 73 L10.2 27 Z\" fill=\"#0B0F17\" stroke=\"#38BDF8\" stroke-opacity=\".8\" stroke-width=\"2.6\" stroke-linejoin=\"round\"/>\u003cpath d=\"M50 10.5 L84.2 30.25 L84.2 69.75 L50 89.5 L15.8 69.75 L15.8 30.25 Z\" fill=\"none\" stroke=\"#38BDF8\" stroke-opacity=\".3\" stroke-width=\"1.4\" stroke-linejoin=\"round\"/>\u003cpolygon points=\"50,17 60.5,33 50,54\" fill=\"#FB923C\" stroke=\"#FB923C\" stroke-width=\".4\" stroke-linejoin=\"round\"/>\u003cpolygon points=\"60.5,33 66.5,47.5 50,54\" fill=\"#F97316\" stroke=\"#F97316\" stroke-width=\".4\" stroke-linejoin=\"round\"/>\u003cpolygon points=\"66.5,47.5 64.5,62 50,54\" fill=\"#EA580C\" stroke=\"#EA580C\" stroke-width=\".4\" stroke-linejoin=\"round\"/>\u003cpolygon points=\"64.5,62 57,72.5 50,54\" fill=\"#C2410C\" stroke=\"#C2410C\" stroke-width=\".4\" stroke-linejoin=\"round\"/>\u003cpolygon points=\"57,72.5 43,72.5 50,54\" fill=\"#9A3412\" stroke=\"#9A3412\" stroke-width=\".4\" stroke-linejoin=\"round\"/>\u003cpolygon points=\"43,72.5 35.5,62 50,54\" fill=\"#C2410C\" stroke=\"#C2410C\" stroke-width=\".4\" stroke-linejoin=\"round\"/>\u003cpolygon points=\"35.5,62 33.5,49.5 50,54\" fill=\"#EA580C\" stroke=\"#EA580C\" stroke-width=\".4\" stroke-linejoin=\"round\"/>\u003cpolygon points=\"33.5,49.5 40,39.5 50,54\" fill=\"#F97316\" stroke=\"#F97316\" stroke-width=\".4\" stroke-linejoin=\"round\"/>\u003cpolygon points=\"40,39.5 44,46 50,54\" fill=\"#FB923C\" stroke=\"#FB923C\" stroke-width=\".4\" stroke-linejoin=\"round\"/>\u003cpolygon points=\"44,46 46,31 50,54\" fill=\"#FDBA74\" stroke=\"#FDBA74\" stroke-width=\".4\" stroke-linejoin=\"round\"/>\u003cpolygon points=\"46,31 50,17 50,54\" fill=\"#FDBA74\" stroke=\"#FDBA74\" stroke-width=\".4\" stroke-linejoin=\"round\"/>\u003cpolygon points=\"50,43 54.5,54 50,63 45.5,54\" fill=\"#FFEDD5\" fill-opacity=\".92\"/>\u003ctext x=\"50\" y=\"71\" text-anchor=\"middle\" font-family=\"JetBrains Mono,ui-monospace,monospace\" font-weight=\"800\" font-size=\"6.4\" letter-spacing=\".6\" fill=\"#0B0F17\" fill-opacity=\".72\">JP\u003c/text>\u003c/svg>","shieldSm":"\u003csvg xmlns=\"http://www.w3.org/2000/svg\" width=\"26\" height=\"31\" viewBox=\"0 0 100 120\">\u003cdefs>\u003clinearGradient id=\"g\" x1=\"0\" y1=\"0\" x2=\"0\" y2=\"1\">\u003cstop offset=\"0\" stop-color=\"#FFE45C\"/>\u003cstop offset=\"1\" stop-color=\"#F2C200\"/>\u003c/linearGradient>\u003c/defs>\u003cpath d=\"M50 3 L91 16 Q95 17.5 95 22 L95 57 C95 86 75 105 50 117 C25 105 5 86 5 57 L5 22 Q5 17.5 9 16 Z\" fill=\"url(#g)\" stroke=\"#FFF3A6\" stroke-opacity=\".55\" stroke-width=\"1.5\"/>\u003cpath d=\"M50 12 L85 23 L85 57 C85 80 69 96 50 106 C31 96 15 80 15 57 L15 23 Z\" fill=\"none\" stroke=\"#7A6500\" stroke-opacity=\".55\" stroke-width=\"2.5\"/>\u003cpath d=\"M57 25 L31 66 L47 66 L41 97 L70 51 L53 51 L61 25 Z\" fill=\"#0B0B0B\"/>\u003c/svg>","athlete":{"name":"juan pablo armiñana","weightKg":88,"phase":"Recomposición Agresiva","discipline":"CROSSFIT & HYROX"},"coachNote":"Respetá estrictamente los horarios nocturnos de carga y descarga glucídica para mitigar el picoteo matutino. Mantén la hidratación constante con mate y agua durante tus horas de pie en el box.","targets":{"on":{"kcal":2975,"p":200,"c":375,"f":75},"off":{"kcal":2650,"p":200,"c":260,"f":90}},"threshold":2.7,"meals":[{"id":"32hilvrs","name":"Desayuno","time":"06:00","day":"both","role":"breakfast","items":[{"id":"gzyyp35f","foodId":"huevo","food":"Huevo entero","grams":150,"p":18.9,"c":1,"f":14.3,"leucine":1.64},{"id":"z4tkh3vv","foodId":"avena-instantanea","food":"Avena instantánea","grams":60,"p":7.2,"c":39.6,"f":3.9,"leucine":0.57},{"id":"okpl9t8m","foodId":"yogur","food":"Yogur griego descremado","grams":200,"p":20,"c":8,"f":0.8,"leucine":2},{"id":"yt21z233","foodId":"banana","food":"Banana","grams":120,"p":1.3,"c":27.6,"f":0.4,"leucine":0.08}],"mps":true},{"id":"ks0rr0nv","name":"Almuerzo","time":"12:30","day":"both","role":"lunch","items":[{"id":"kyn60kst","foodId":"pollo","food":"Pechuga de pollo (cocida)","grams":200,"p":62,"c":0,"f":7.2,"leucine":5},{"id":"12c6w9sd","foodId":"arroz","food":"Arroz blanco (cocido)","grams":250,"p":6.8,"c":70,"f":0.8,"leucine":0.55},{"id":"ugz593hi","foodId":"vegetales","food":"Vegetales mixtos / ensalada","grams":150,"p":2.3,"c":6,"f":0.3,"leucine":0.12},{"id":"3jwovwyh","foodId":"oliva","food":"Aceite de oliva extra virgen","grams":15,"p":0,"c":0,"f":15,"leucine":0}],"mps":true},{"id":"t10q30ii","name":"Pre-WOD","time":"19:15","day":"on","role":"peri","items":[{"id":"2d8o4m40","foodId":"tutucas","food":"Tutucas de maíz","grams":65,"p":4.9,"c":54.6,"f":1,"leucine":0.59},{"id":"q3eoqydt","foodId":"yogur","food":"Yogur griego descremado","grams":110,"p":11,"c":4.4,"f":0.4,"leucine":1.1},{"id":"hriuincm","foodId":"miel","food":"Miel","grams":35,"p":0.1,"c":28.7,"f":0,"leucine":0}],"mps":false},{"id":"15ybd1ce","name":"Post-WOD Inmediato","time":"00:00","day":"on","role":"post","items":[{"id":"r8n6ek3v","foodId":"pollo","food":"Pechuga de pollo (cocida)","grams":80,"p":24.8,"c":0,"f":2.9,"leucine":2},{"id":"ovn2ezo1","foodId":"papa","food":"Papa (hervida)","grams":335,"p":6.4,"c":67,"f":0.3,"leucine":0.34}],"mps":true},{"id":"xoqydvcp","name":"Cena Principal","time":"03:00","day":"on","role":"dinner","items":[{"id":"09c18cms","foodId":"nalga","food":"Nalga / peceto (cocido)","grams":77,"p":23.1,"c":0,"f":3.9,"leucine":1.85},{"id":"s6b9hb6z","foodId":"arroz","food":"Arroz blanco (cocido)","grams":225,"p":6.1,"c":63,"f":0.7,"leucine":0.5},{"id":"txzx1dx6","foodId":"palta","food":"Palta","grams":70,"p":1.4,"c":5.9,"f":10.5,"leucine":0.1},{"id":"9p88zfuc","foodId":"oliva","food":"Aceite de oliva extra virgen","grams":5,"p":0,"c":0,"f":5,"leucine":0},{"id":"qmz63qqj","foodId":"palta","food":"Palta","grams":45,"p":0.9,"c":3.8,"f":6.8,"leucine":0.06}],"mps":true},{"id":"pzbeeqz4","name":"Merienda Táctica OFF","time":"17:00","day":"off","role":"snack","items":[{"id":"8vrs93ry","foodId":"yogur","food":"Yogur griego descremado","grams":185,"p":18.5,"c":7.4,"f":0.7,"leucine":1.85},{"id":"xhr8gbxa","foodId":"nueces","food":"Nueces","grams":35,"p":5.3,"c":4.9,"f":22.8,"leucine":0.41}],"mps":false},{"id":"w6zd97ys","name":"Cena OFF","time":"21:00","day":"off","role":"dinner","items":[{"id":"nl7o9wo9","foodId":"nalga","food":"Nalga / peceto (cocido)","grams":165,"p":49.5,"c":0,"f":8.3,"leucine":3.96},{"id":"3qr3x2w0","foodId":"batata","food":"Batata (cocida)","grams":480,"p":7.7,"c":96,"f":0.5,"leucine":0.43},{"id":"qad0eqsr","foodId":"oliva","food":"Aceite de oliva extra virgen","grams":15,"p":0,"c":0,"f":15,"leucine":0}],"mps":true}],"foods":{"pollo":{"id":"pollo","name":"Pechuga de pollo (cocida)","group":"lean-protein","p":31,"c":0,"f":3.6,"leucine":2.5},"cuadril":{"id":"cuadril","name":"Cuadril magro (cocido)","group":"lean-protein","p":29,"c":0,"f":7,"leucine":2.35},"lomo":{"id":"lomo","name":"Lomo vacuno (cocido)","group":"lean-protein","p":28,"c":0,"f":8,"leucine":2.25},"nalga":{"id":"nalga","name":"Nalga / peceto (cocido)","group":"lean-protein","p":30,"c":0,"f":5,"leucine":2.4},"picada":{"id":"picada","name":"Carne picada especial 5% (cocida)","group":"lean-protein","p":26,"c":0,"f":10,"leucine":2.1},"merluza":{"id":"merluza","name":"Merluza (cocida)","group":"lean-protein","p":23,"c":0,"f":1.5,"leucine":1.9},"atun":{"id":"atun","name":"Atún al natural (escurrido)","group":"lean-protein","p":26,"c":0,"f":1,"leucine":2.1},"cerdo":{"id":"cerdo","name":"Bondiola / carré magro de cerdo (cocido)","group":"lean-protein","p":27,"c":0,"f":9,"leucine":2.15},"huevo":{"id":"huevo","name":"Huevo entero","group":"eggs","unit":{"label":"u","grams":50},"p":12.6,"c":0.7,"f":9.5,"leucine":1.09},"claras":{"id":"claras","name":"Claras de huevo","group":"eggs","unit":{"label":"clara","grams":33},"p":10.9,"c":0.7,"f":0.2,"leucine":0.95},"ricota":{"id":"ricota","name":"Ricota magra","group":"dairy-protein","p":11,"c":3.5,"f":4,"leucine":1.15},"yogur":{"id":"yogur","name":"Yogur griego descremado","group":"dairy-protein","p":10,"c":4,"f":0.4,"leucine":1},"untable":{"id":"untable","name":"Queso untable descremado","group":"dairy-protein","p":10,"c":4,"f":1,"leucine":0.98},"leche":{"id":"leche","name":"Leche descremada","group":"dairy-protein","unit":{"label":"taza","grams":250},"p":3.3,"c":5,"f":0.1,"leucine":0.33},"whey":{"id":"whey","name":"Whey protein (concentrado)","group":"whey","unit":{"label":"scoop","grams":30},"p":78,"c":7,"f":6,"leucine":8.5},"avena":{"id":"avena","name":"Avena arrollada","group":"cereal","p":13,"c":60,"f":7,"leucine":1},"pan":{"id":"pan","name":"Pan integral","group":"cereal","unit":{"label":"rebanada","grams":30},"p":9,"c":45,"f":3.5,"leucine":0.65},"galletas-arroz":{"id":"galletas-arroz","name":"Galletas de arroz inflado","group":"cereal","unit":{"label":"u","grams":9},"p":8,"c":80,"f":3,"leucine":0.6,"equiv":["tutucas","tostadas-arroz"]},"tutucas":{"id":"tutucas","name":"Tutucas de maíz","group":"cereal","unit":{"label":"porción","grams":30},"p":7.5,"c":84,"f":1.5,"leucine":0.9,"equiv":["copos-maiz","galletas-arroz","avena-instantanea","tostadas-arroz"]},"copos-maiz":{"id":"copos-maiz","name":"Copos de maíz sin azúcar","group":"cereal","unit":{"label":"porción","grams":30},"p":7,"c":84,"f":0.9,"leucine":0.85,"equiv":["tutucas","galletas-arroz","avena-instantanea"]},"avena-instantanea":{"id":"avena-instantanea","name":"Avena instantánea","group":"cereal","p":12,"c":66,"f":6.5,"leucine":0.95,"equiv":["avena","tutucas","copos-maiz"]},"tostadas-arroz":{"id":"tostadas-arroz","name":"Tostadas de arroz","group":"cereal","unit":{"label":"u","grams":8},"p":7.5,"c":81,"f":2.8,"leucine":0.6,"equiv":["galletas-arroz","tutucas"]},"arroz":{"id":"arroz","name":"Arroz blanco (cocido)","group":"starch","p":2.7,"c":28,"f":0.3,"leucine":0.22},"yamani":{"id":"yamani","name":"Arroz yamaní (cocido)","group":"starch","p":2.6,"c":23,"f":0.9,"leucine":0.21},"fideos":{"id":"fideos","name":"Fideos (cocidos)","group":"starch","p":5.8,"c":31,"f":0.9,"leucine":0.45},"batata":{"id":"batata","name":"Batata (cocida)","group":"starch","p":1.6,"c":20,"f":0.1,"leucine":0.09},"papa":{"id":"papa","name":"Papa (hervida)","group":"starch","p":1.9,"c":20,"f":0.1,"leucine":0.1},"lentejas":{"id":"lentejas","name":"Lentejas (cocidas)","group":"starch","p":9,"c":20,"f":0.4,"leucine":0.65},"banana":{"id":"banana","name":"Banana","group":"fruit","unit":{"label":"u","grams":120},"p":1.1,"c":23,"f":0.3,"leucine":0.07},"manzana":{"id":"manzana","name":"Manzana","group":"fruit","unit":{"label":"u","grams":180},"p":0.3,"c":14,"f":0.2,"leucine":0.01},"frutillas":{"id":"frutillas","name":"Frutillas","group":"fruit","p":0.7,"c":7.7,"f":0.3,"leucine":0.04},"miel":{"id":"miel","name":"Miel","group":"sport-carb","p":0.3,"c":82,"f":0,"leucine":0},"isotonica":{"id":"isotonica","name":"Bebida isotónica","group":"sport-carb","unit":{"label":"botella","grams":500},"p":0,"c":6,"f":0,"leucine":0},"dulce-membrillo":{"id":"dulce-membrillo","name":"Dulce de membrillo","group":"sport-carb","p":0.4,"c":65,"f":0,"leucine":0},"mani":{"id":"mani","name":"Pasta de maní","group":"fat","p":25,"c":16,"f":50,"leucine":1.6},"palta":{"id":"palta","name":"Palta","group":"fat","p":2,"c":8.5,"f":15,"leucine":0.14},"oliva":{"id":"oliva","name":"Aceite de oliva extra virgen","group":"fat","unit":{"label":"cda","grams":13},"p":0,"c":0,"f":100,"leucine":0},"nueces":{"id":"nueces","name":"Nueces","group":"fat","p":15,"c":14,"f":65,"leucine":1.17},"alfajor-proteico":{"id":"alfajor-proteico","name":"Alfajor proteico","group":"protein-snack","unit":{"label":"u","grams":50},"p":30,"c":42,"f":15,"leucine":2.5,"equiv":["barra-proteica","yogur-proteico"]},"barra-proteica":{"id":"barra-proteica","name":"Barra proteica","group":"protein-snack","unit":{"label":"u","grams":46},"p":33,"c":36,"f":13,"leucine":2.7,"equiv":["alfajor-proteico","yogur-proteico"]},"yogur-proteico":{"id":"yogur-proteico","name":"Yogur bebible proteico (alto en proteínas)","group":"dairy-protein","unit":{"label":"botella","grams":250},"p":6,"c":5.5,"f":0.4,"leucine":0.6,"equiv":["yogur","leche"]},"queso-light":{"id":"queso-light","name":"Queso cremoso light","group":"dairy-protein","p":22,"c":2,"f":14,"leucine":2,"equiv":["ricota","untable"]},"galletitas-agua":{"id":"galletitas-agua","name":"Galletitas de agua","group":"cereal","unit":{"label":"u","grams":6},"p":10,"c":70,"f":12,"leucine":0.75,"equiv":["galletas-arroz","tostadas-arroz","pan"]},"pan-lactal":{"id":"pan-lactal","name":"Pan lactal integral","group":"cereal","unit":{"label":"rebanada","grams":25},"p":10,"c":43,"f":4,"leucine":0.7,"equiv":["pan","tostadas-arroz"]},"barrita-cereal":{"id":"barrita-cereal","name":"Barrita de cereal","group":"sport-carb","unit":{"label":"u","grams":23},"p":6,"c":70,"f":9,"leucine":0.4,"equiv":["banana","dulce-membrillo"]},"vegetales":{"id":"vegetales","name":"Vegetales mixtos / ensalada","group":"veg","p":1.5,"c":4,"f":0.2,"leucine":0.08}},"anchors":{"lean-protein":"p","dairy-protein":"p","eggs":"p","whey":"p","starch":"c","cereal":"c","fruit":"c","fat":"f","veg":"c","sport-carb":"c","protein-snack":"p"},"groupLabels":{"lean-protein":"Proteína magra","dairy-protein":"Lácteo proteico","eggs":"Huevo","whey":"Suplemento proteico","starch":"Almidón","cereal":"Almidón / Carbos rápidos / Cereales","fruit":"Fruta","fat":"Grasa","veg":"Vegetal","sport-carb":"Carbo rápido","protein-snack":"Snack proteico comercial"},"swapGroups":{"lean-protein":8,"eggs":2,"dairy-protein":6,"whey":1,"cereal":9,"starch":6,"fruit":3,"sport-carb":4,"fat":4,"protein-snack":2,"veg":1},"supplements":[{"id":"creatina","name":"Creatina monohidrato","dose":"5 g diarios","timing":"Post-entreno o cualquier momento del día","evidence":"KREIDER ET AL., 2017 · J INT SOC SPORTS NUTR","doi":"10.1186/s12970-017-0173-z","enabled":true},{"id":"cafeina","name":"Cafeína","dose":"200 mg (3 mg/kg)","timing":"45 min antes del Pre-WOD (días ON)","evidence":"GUEST ET AL., 2021 · J INT SOC SPORTS NUTR","doi":"10.1186/s12970-018-0242-9","enabled":true},{"id":"beta-alanina","name":"Beta-alanina","dose":"3.2 g diarios","timing":"Dividida en dos tomas con las comidas","evidence":"TREXLER ET AL., 2015 · J INT SOC SPORTS NUTR","doi":"10.1186/s12970-015-0090-y","enabled":true}],"protocols":[],"citations":[{"label":"MORTON ET AL., 2018 · BR J SPORTS MED","doi":"10.1136/bjsports-2017-097608"},{"label":"SCHOENFELD & ARAGON, 2018 · J INT SOC SPORTS NUTR","doi":"10.1186/s12970-018-0215-1"},{"label":"NORTON & LAYMAN, 2006 · J NUTR","doi":"10.1093/jn/136.2.533S"},{"label":"THOMAS, ERDMAN & BURKE, 2016 · MED SCI SPORTS EXERC","doi":"10.1249/MSS.0000000000000852"},{"label":"LOUCKS ET AL., 2011 · J SPORTS SCI","doi":"10.1080/02640414.2011.588958"}],"generatedLabel":"08/10/2026","hydration":{"offMl":3000,"onMl":4000},"training":{"time":"20:00","minutes":240},"trainingDays":5,"trainingWeekdays":[1,2,3,4,5],"categories":{"fruit":"Verdulería","veg":"Verdulería","lean-protein":"Carnicería / Pescadería","eggs":"Almacén · Lácteos y huevos","dairy-protein":"Almacén · Lácteos y huevos","starch":"Almacén","cereal":"Almacén","sport-carb":"Almacén","protein-snack":"Almacén","fat":"Almacén","whey":"Suplementos"},"categoryOrder":["Verdulería","Carnicería / Pescadería","Almacén","Almacén · Lácteos y huevos","Suplementos","Otros"],"shopRules":{"pollo":{"name":"Pechuga de pollo (cruda)","factor":1.3,"state":"raw"},"cuadril":{"name":"Cuadril magro (crudo)","factor":1.3,"state":"raw"},"lomo":{"name":"Lomo vacuno (crudo)","factor":1.3,"state":"raw"},"nalga":{"name":"Nalga / peceto (crudo)","factor":1.3,"state":"raw"},"picada":{"name":"Carne picada especial 5 % (cruda)","factor":1.3,"state":"raw"},"merluza":{"name":"Merluza (filet crudo)","factor":1.3,"state":"raw"},"cerdo":{"name":"Bondiola / carré magro de cerdo (crudo)","factor":1.3,"state":"raw"},"arroz":{"name":"Arroz blanco (paquete)","factor":0.4,"state":"dry","pack":500},"yamani":{"name":"Arroz yamaní (paquete)","factor":0.4,"state":"dry","pack":500},"fideos":{"name":"Fideos secos (paquete)","factor":0.4,"state":"dry","pack":500},"lentejas":{"name":"Lentejas secas (paquete)","factor":0.4,"state":"dry","pack":500},"papa":{"section":"Verdulería","name":"Papa"},"batata":{"section":"Verdulería","name":"Batata"},"isotonica":{"name":"Bebida isotónica (500 ml)","byUnit":500,"unitLabel":"botellas"},"oliva":{"name":"Aceite de oliva extra virgen","min":500,"minLabel":"1 botella (500 ml)"},"palta":{"section":"Verdulería"},"avena":{"key":"avena","name":"Avena (entera o instantánea)"},"avena-instantanea":{"key":"avena","name":"Avena (entera o instantánea)"},"nueces":{"name":"Nueces / frutos secos","min":100,"minLabel":"1 bolsita (100 g)"}},"shopFallback":"Otros","manifest":{"name":"Coach JP Nutrition · juan pablo armiñana","short_name":"juan","description":"Plan nutricional personalizado · Coach JP Nutrition · High Performance System","start_url":"./","scope":"./","display":"standalone","orientation":"portrait","background_color":"#0B0F17","theme_color":"#0B0F17","lang":"es-AR","icons":[]},"scanPrompt":"Actúas como el analista visual de bioenergética de Coach JP (@coachjp.training).\nRecibís la foto de un plato. Identificá cada ingrediente visible y estimá su peso en gramos (peso cocido para carnes,\narroz, fideos, papa, batata) usando alimentos habituales de Argentina (ej: pechuga de pollo, cuadril, nalga, milanesa,\narroz blanco, fideos, papa, batata, huevo, ensalada mixta, palta, aceite de oliva, pan, queso, yogur).\nUsá referencias de tamaño (plato ~26 cm, cubiertos) para estimar porciones. Si algo no se ve con claridad, decilo en \"tips\".\nDevolvé OBLIGATORIAMENTE sólo un JSON válido, sin texto extra ni bloques de código:\n{ \"dishName\": string, \"items\": [{ \"food\": string, \"grams\": number, \"p\": number, \"c\": number, \"f\": number }],\n  \"score\": number (0-100, \"Puntuación Nutricional Táctica\": densidad proteica, calidad de carbohidratos,\n  presencia de vegetales, perfil de grasas y nivel de ultraprocesado), \"scoreReason\": string (1 frase),\n  \"tips\": [string] (máx. 3 ajustes concretos para el atleta) }\nAgregá a cada item \"leucine\" (g estimados de leucina para esa porción).","labelPrompt":"Actúas como lector de etiquetas de Coach JP. Recibís la foto de la TABLA DE INFORMACIÓN NUTRICIONAL de un producto envasado\n(formato argentino / Mercosur: \"Porción X g\", \"Valor energético\", \"Carbohidratos\", \"Proteínas\", \"Grasas totales\", \"Sodio\").\nLeé los valores tal como figuran. Si la tabla trae columna por 100 g, usala; si sólo trae por porción, completá perServing.\nDevolvé OBLIGATORIAMENTE sólo un JSON válido, sin texto extra:\n{ \"productName\": string, \"brand\": string, \"servingG\": number,\n  \"per100\": { \"kcal\": number, \"p\": number, \"c\": number, \"f\": number, \"sodiumMg\": number },\n  \"perServing\": { \"kcal\": number, \"p\": number, \"c\": number, \"f\": number, \"sodiumMg\": number } }\nUsá null en lo que no se lea con claridad. Kcal en kcal (no kJ).\nSi la foto NO es una tabla nutricional sino un plato de comida servido (sin texto de etiqueta), devolvé sólo: { \"isLabel\": false, \"looksLike\": \"plate\" }."}</script>
 <script>
 (function () {
   'use strict';
@@ -393,6 +415,9 @@ body.standalone .dock{display:none}
     tlOpen: store.get('tlOpen', false),
     dirOpen: false,
     extras: store.get('extras:' + today, {}),
+    free: store.get('free:' + today, {}),
+    outScene: null,
+    outMeal: '',
     scanTab: 'plate',
     portions: 1,
     aiCfg: false,
@@ -475,15 +500,23 @@ body.standalone .dock{display:none}
   function isOffPeri(m, mode) { return mode === 'off' && (m.role === 'peri' || PERI_RE.test(m.name)); }
   function mealName(m, mode) { return isOffPeri(m, mode) ? 'Merienda Táctica OFF' : m.name; }
 
-  function mealsFor(mode, extras) {
+  // Comida libre controlada (Comer fuera): bloque promedio balanceado que reemplaza la comida en la telemetría.
+  var FREE_MEAL = { p: 45, c: 70, f: 32 };
+  function freeItem(m, sc) {
+    var lbl = (OUT_SCENES.filter(function (o) { return o.id === sc; })[0] || {}).label || 'Salida';
+    return { id: 'free-' + m.id, food: 'Comida libre controlada · ' + lbl, grams: 0, p: FREE_MEAL.p, c: FREE_MEAL.c, f: FREE_MEAL.f, leucine: FREE_MEAL.p * 0.08, free: true };
+  }
+
+  function mealsFor(mode, extras, free) {
     extras = extras || S.extras;
+    free = free || S.free;
     var base = D.meals.filter(function (m) { return m.day === 'both' || m.day === mode; });
     var out = extras.__out;
     if (out && out.length) base = base.concat([{ id: '__out', name: 'Fuera del plan · análisis IA', time: out[0].at || '12:00', day: mode, role: 'snack', mps: false, items: [] }]);
     return base
       .sort(function (a, b) { return a.time.localeCompare(b.time); })
       .map(function (m) {
-        var items = m.items.map(resolveItem).concat(extras[m.id] || []);
+        var items = free[m.id] ? [freeItem(m, free[m.id])] : m.items.map(resolveItem).concat(extras[m.id] || []);
         var t = items.reduce(function (a, i) { return { p: a.p + i.p, c: a.c + i.c, f: a.f + i.f, l: a.l + i.leucine }; }, { p: 0, c: 0, f: 0, l: 0 });
         return { m: m, items: items, t: t, kcal: t.p * 4 + t.c * 4 + t.f * 9 };
       });
@@ -496,7 +529,7 @@ body.standalone .dock{display:none}
     var cur = iso === S.date;
     var checks = cur ? S.checks : store.get('checks:' + iso, {});
     var mode = cur ? S.mode : modeFor(iso);
-    var list = mealsFor(mode, cur ? S.extras : store.get('extras:' + iso, {}));
+    var list = mealsFor(mode, cur ? S.extras : store.get('extras:' + iso, {}), cur ? S.free : store.get('free:' + iso, {}));
     var tgt = D.targets[mode];
     var done = 0, k = 0;
     list.forEach(function (x) { if (checks[x.m.id]) { done++; k += x.kcal; } });
@@ -534,6 +567,7 @@ body.standalone .dock{display:none}
     S.checks = store.get('checks:' + iso, {});
     S.water = store.get('water:' + iso, 0);
     S.extras = store.get('extras:' + iso, {});
+    S.free = store.get('free:' + iso, {});
     if (!D.preview) S.mode = modeFor(iso);
   }
 
@@ -604,7 +638,7 @@ body.standalone .dock{display:none}
   function hhmm(min) { min = ((min % 1440) + 1440) % 1440; return pad2(Math.floor(min / 60)) + ':' + pad2(min % 60); }
 
   function timeline(mode, list) {
-    var start = toMin(D.training.time), end = start + D.training.minutes, nowMin = now.getHours() * 60 + now.getMinutes();
+    var start = toMin(D.training.time), end = start + Math.max(15, Number(D.training.minutes) || 60), nowMin = now.getHours() * 60 + now.getMinutes();
     var live = S.date === today;
     var next = null;
     if (live) list.forEach(function (x) { var t = toMin(x.m.time); if (!S.checks[x.m.id] && t >= nowMin && (!next || t < toMin(next.m.time))) next = x; });
@@ -612,7 +646,7 @@ body.standalone .dock{display:none}
       ? list.length + ' comidas · ' + (mode === 'on' ? 'entreno ' + hhmm(start) + '–' + hhmm(end) : 'día OFF')
       : next ? 'Próxima: ' + esc(mealName(next.m, mode)) + ' · ' + esc(next.m.time) : 'Sin ingestas pendientes';
 
-    var h = '<section class="card tlcard"><button class="tl-hd" data-tl="1" aria-expanded="' + (S.tlOpen ? 'true' : 'false') + '"><span class="tag">[ TIMELINE PERI-ENTRENO ' + (S.tlOpen ? '▴' : '▾') + ' ]</span><span class="tl-peek">' + peek + '</span></button>';
+    var h = '<section class="card tlcard"><button class="tl-hd" data-tl="1" aria-expanded="' + (S.tlOpen ? 'true' : 'false') + '" aria-label="' + esc(peek.replace(/<[^>]+>/g, '')) + '"><span class="tag">[ TIMELINE PERI-ENTRENO · 24H ]</span><span class="chev' + (S.tlOpen ? ' up' : '') + '"></span></button>';
     if (!S.tlOpen) return h + '</section>';
 
     var track = '';
@@ -657,19 +691,32 @@ body.standalone .dock{display:none}
   // ---------- 4 · Lista de compras semanal ----------
   function shoppingList() {
     var onDays = Math.max(0, Math.min(7, D.trainingDays)), mult = { on: onDays, off: 7 - onDays, both: 7 };
+    var rules = D.shopRules || {};
     var acc = {};
     D.meals.forEach(function (m) {
       m.items.map(resolveItem).forEach(function (it) {
-        var key = it.foodId || 'x:' + it.food;
-        if (!acc[key]) acc[key] = { name: it.food, foodId: it.foodId, grams: 0 };
+        var rule = (it.foodId && rules[it.foodId]) || {};
+        var key = rule.key || it.foodId || 'x:' + it.food;
+        if (!acc[key]) acc[key] = { foodId: it.foodId, name: rule.name || it.food, rule: rule, grams: 0 };
         acc[key].grams += it.grams * mult[m.day];
       });
     });
     var groups = {};
     Object.keys(acc).forEach(function (k) {
-      var it = acc[k], ref = it.foodId && D.foods[it.foodId];
-      var cat = ref ? D.categories[ref.group] || 'Otros' : 'Otros';
-      (groups[cat] = groups[cat] || []).push({ key: k, name: it.name, grams: it.grams, hint: unitHintFor(it.foodId, it.grams) });
+      var it = acc[k], ref = it.foodId && D.foods[it.foodId], r = it.rule;
+      var cat = r.section || (ref ? D.categories[ref.group] : '') || D.shopFallback || 'Otros';
+      var row = { key: k, name: it.name, grams: it.grams, cooked: it.grams, hint: '', note: '' };
+      if (r.factor) {
+        row.grams = it.grams * r.factor;
+        if (r.pack) row.grams = Math.max(r.pack, Math.ceil(row.grams / r.pack) * r.pack);
+        row.note = r.state === 'raw' ? 'equivale a ' + qty(it.grams) + ' cocido' : 'rinde ~' + qty(row.grams * 2.5) + ' cocido';
+        row.raw = r.state === 'raw';
+      } else {
+        row.hint = unitHintFor(it.foodId, it.grams);
+      }
+      if (r.min && row.grams < r.min) { row.grams = r.min; row.label = r.minLabel; row.hint = ''; }
+      if (r.byUnit) { var u = Math.ceil(it.grams / r.byUnit); row.label = u + ' ' + (u > 1 ? r.unitLabel : r.unitLabel.replace(/s$/, '')); row.hint = ''; }
+      (groups[cat] = groups[cat] || []).push(row);
     });
     if (D.supplements.length) groups['Suplementos'] = (groups['Suplementos'] || []).concat(D.supplements.map(function (s) { return { key: 'sup:' + s.id, name: s.name, dose: s.dose }; }));
     return D.categoryOrder.filter(function (c) { return groups[c]; }).map(function (c) {
@@ -677,13 +724,18 @@ body.standalone .dock{display:none}
     });
   }
 
-  function qty(g) { return g >= 1000 ? n1(g / 1000) + ' kg' : n0(Math.round(g / 10) * 10) + ' g'; }
+  function qty(g) { return g >= 1000 ? n1(Math.round(g / 100) / 10) + ' kg' : n0(Math.round(g / 10) * 10) + ' g'; }
+  function shopQty(i) {
+    if (i.dose) return i.dose;
+    if (i.label) return i.label;
+    return (i.raw ? '~' : '') + qty(i.grams);
+  }
 
   function shopText(list) {
-    var t = 'LISTA DE COMPRAS SEMANAL · ' + D.athlete.name + '\n';
+    var t = '🛒 *LISTA DE COMPRAS SEMANAL* · ' + D.athlete.name + '\nSemana del ' + weekKey.split('-').reverse().join('/') + ' · ' + D.trainingDays + ' días ON + ' + (7 - D.trainingDays) + ' OFF\n';
     list.forEach(function (g) {
-      t += '\n' + g.cat.toUpperCase() + '\n';
-      g.items.forEach(function (i) { t += '- ' + i.name + ': ' + (i.dose ? i.dose : qty(i.grams) + (i.hint ? ' (' + i.hint.replace('≈ ', '≈') + ')' : '')) + '\n'; });
+      t += '\n*' + g.cat.toUpperCase() + '*\n';
+      g.items.forEach(function (i) { t += '▢ ' + i.name + ': *' + shopQty(i) + '*' + (i.note ? ' (' + i.note + ')' : i.hint ? ' (' + i.hint.replace('≈ ', '≈') + ')' : '') + '\n'; });
     });
     return t + '\n' + D.handle;
   }
@@ -703,30 +755,40 @@ body.standalone .dock{display:none}
     }
     if (S.panel === 'shop') {
       var list = shoppingList();
-      var h2 = '<div class="tag">[ LISTA DE COMPRAS · SEMANA DEL ' + weekKey.split('-').reverse().join('/') + ' ]</div><h3>Totales para 7 días</h3><p class="muted" style="font-size:12.5px">' + D.trainingDays + ' días ON + ' + (7 - D.trainingDays) + ' días OFF · incluye tus cambios de alimentos. Pesos en cocido.</p>';
+      var h2 = '<button class="xclose" data-close="1" aria-label="Cerrar">✕</button><div class="tag">[ LISTA DE COMPRAS · SEMANA DEL ' + weekKey.split('-').reverse().join('/') + ' ]</div><h3>Totales para 7 días</h3><p class="muted" style="font-size:12.5px">' + D.trainingDays + ' días ON + ' + (7 - D.trainingDays) + ' días OFF · incluye tus cambios. Carnes en peso crudo, arroz y fideos en seco.</p>';
+      h2 += '<button class="wa-btn" data-washop="1">[ 📲 Mandar lista por WhatsApp ]</button>';
       list.forEach(function (g) {
         h2 += '<div class="shop-cat">' + esc(g.cat) + '</div>';
         g.items.forEach(function (i) {
           var on = !!S.shop[i.key];
-          h2 += '<button class="shop-item' + (on ? ' done' : '') + '" data-shopcheck="' + esc(i.key) + '"><span class="chk">' + CHECK + '</span><span class="sn">' + esc(i.name) + '</span><span class="sq">' + (i.dose ? esc(i.dose) : qty(i.grams) + (i.hint ? '<em>' + i.hint + '</em>' : '')) + '</span></button>';
+          h2 += '<button class="shop-item' + (on ? ' done' : '') + '" data-shopcheck="' + esc(i.key) + '"><span class="chk">' + CHECK + '</span><span class="sn">' + esc(i.name) + '</span><span class="sq">' + esc(shopQty(i)) + (i.note ? '<em>' + esc(i.note) + '</em>' : i.hint ? '<em>' + i.hint + '</em>' : '') + '</span></button>';
         });
       });
       h2 += '<div class="wbtns" style="margin-top:14px"><button data-copyshop="1">Copiar lista</button><button data-shopreset="1" class="ghost">Desmarcar todo</button></div>';
       return open(bg, sh, h2);
     }
     if (S.panel === 'out') {
-      var rules = [
-        ['Proteína primero', 'Elegí una proteína del tamaño de tu palma (bife, pollo, pescado a la plancha): ~30-40 g de proteína.'],
-        ['Carbos según el día', 'Día ON: 1 porción de arroz, papa o pasta. Día OFF: cambiala por ensalada o vegetales grillados.'],
-        ['Grasas a la vista', 'Aderezos aparte. Evitá frituras y rebozados: milanesa al horno antes que frita.'],
-        ['Parrilla inteligente', 'Cortes magros (lomo, entraña, vacío desgrasado, pollo). Achuras y chorizo, de a uno y compartido.'],
-        ['Pizza / empanadas', '2-3 porciones + ensalada. Sumá una fuente de proteína en la comida siguiente.'],
-        ['Bebidas', 'Agua o soda. Alcohol: máximo 1-2 copas y nunca en la ventana post-entreno.'],
-        ['Postre', 'Fruta o compartido. Si te pasaste, no compenses salteando comidas: retomá el plan en la próxima.'],
-        ['Si sabés que salís', 'Guardá ~20-30 % de los carbos del día (menos en el almuerzo) y usá ese margen en la salida.'],
-      ];
-      var h3 = '<div class="tag">[ GUÍA TÁCTICA · COMER FUERA DE CASA ]</div><h3>Rescate gastronómico</h3><p class="muted" style="font-size:12.5px">Reglas directas para eventos sociales. Tocá cada regla para expandirla.</p>';
-      rules.forEach(function (r, i) { h3 += '<details class="rule"' + (i === 0 ? ' open' : '') + '><summary><span class="n">' + (i + 1) + '</span>' + esc(r[0]) + '</summary><p>' + esc(r[1]) + '</p></details>'; });
+      var sc = OUT_SCENES.filter(function (o) { return o.id === S.outScene; })[0];
+      var h3 = '<button class="xclose" data-close="1" aria-label="Cerrar">✕</button><div class="tag">[ COMER FUERA · RESCATE SOCIAL ]</div><h3>¿Dónde comés?</h3>';
+      h3 += '<div class="scenes">' + OUT_SCENES.map(function (o) { return '<button data-scene="' + o.id + '" class="' + (o.id === S.outScene ? 'on' : '') + '">' + o.icon + ' ' + esc(o.label) + '</button>'; }).join('') + '</div>';
+      if (!sc) {
+        h3 += '<p class="muted" style="font-size:12.5px;margin-top:10px">Elegí el escenario y te damos la directiva 3-2-1 al instante: qué pedir, con qué acompañar, qué tomar y qué evitar.</p>';
+        return open(bg, sh, h3);
+      }
+      var mode = S.mode;
+      h3 += '<div class="d321"><div class="tag">[ DIRECTIVA 3-2-1 · ' + esc(sc.label.toUpperCase()) + ' · DÍA ' + mode.toUpperCase() + ' ]</div>';
+      h3 += '<div class="d-row"><span class="n">3</span><div><b>Principal</b><p>' + esc(sc.main) + '</p></div></div>';
+      h3 += '<div class="d-row"><span class="n">2</span><div><b>Acompañamiento</b><p>' + esc(mode === 'on' ? sc.sideOn : sc.sideOff) + '</p></div></div>';
+      h3 += '<div class="d-row"><span class="n">1</span><div><b>Bebida</b><p>' + esc(sc.drink) + '</p></div></div>';
+      h3 += '<div class="d-row avoid"><span class="n">✕</span><div><b>Evitar</b><p>' + esc(sc.avoid) + '</p></div></div></div>';
+      var targets = mealsFor(mode).filter(function (x) { return x.m.id !== '__out' && (x.m.role === 'lunch' || x.m.role === 'dinner'); });
+      if (targets.length) {
+        var nowMin2 = now.getHours() * 60 + now.getMinutes();
+        var def = S.outMeal || (targets.filter(function (x) { return !S.checks[x.m.id] && toMin(x.m.time) >= nowMin2 - 60; })[0] || targets[targets.length - 1]).m.id;
+        h3 += '<label class="lbl">¿Qué comida reemplaza?</label><select id="out-meal" class="inp">' + targets.map(function (x) { return '<option value="' + esc(x.m.id) + '"' + (x.m.id === def ? ' selected' : '') + '>' + esc(x.m.time + ' · ' + x.m.name) + '</option>'; }).join('') + '</select>';
+        h3 += '<button class="add-meal" data-imputar="1">[ ⚡ IMPUTAR COMO COMIDA LIBRE CONTROLADA ]</button>';
+        h3 += '<p class="muted" style="font-size:11.5px;margin-top:6px">Marca la comida como hecha con un bloque promedio de ~' + n0(FREE_MEAL.p * 4 + FREE_MEAL.c * 4 + FREE_MEAL.f * 9) + ' kcal (' + FREE_MEAL.p + ' g P · ' + FREE_MEAL.c + ' g C · ' + FREE_MEAL.f + ' g G) sin desarmar tu telemetría. Se deshace con la ✕ en la comida.</p>';
+      }
       return open(bg, sh, h3);
     }
     if (S.panel === 'guide') {
@@ -753,7 +815,9 @@ body.standalone .dock{display:none}
       h4 += '<label class="lbl">Nota (opcional)</label><textarea id="ph-note" class="inp" rows="2" placeholder="Ej: comí afuera, cambié el arroz por papas">' + esc(S.phNote) + '</textarea>';
 
       if (S.scanBusy) h4 += '<div class="scan-busy"><span class="spin"></span>' + esc(S.scanBusy) + '</div>';
-      if (S.scanErr) h4 += '<div class="scan-err">⚠ ' + esc(S.scanErr) + '</div>';
+      if (S.scanErr && S.scanErrKind === 'plate') h4 += '<div class="scan-info">🍽 ' + esc(S.scanErr) + '<button data-scantab="plate" data-autoscan="1">[ PLATO DE COMIDA ] · ANALIZAR</button></div>';
+      else if (S.scanErr && S.scanErrKind === 'slow') h4 += '<div class="scan-err">⚠ ' + esc(S.scanErr) + '<div class="wbtns"><button data-photo="ai">↻ Reintentar</button><button data-photo="send" class="ghost">WhatsApp al Coach</button></div></div>';
+      else if (S.scanErr) h4 += '<div class="scan-err">⚠ ' + esc(S.scanErr) + '</div>';
       if (S.scan) h4 += S.scan.kind === 'label' ? labelCard(S.scan) : scanCard(S.scan);
 
       h4 += '<div class="wbtns" style="margin-top:12px"><button data-photo="retake" class="ghost">Otra foto</button>';
@@ -822,6 +886,15 @@ body.standalone .dock{display:none}
     });
     open(bg, sh, h);
   }
+
+  // ---------- Comer fuera: escenarios 3-2-1 ----------
+  var OUT_SCENES = [
+    { id: 'parrilla', icon: '🥩', label: 'Parrilla / Asado', main: 'Un corte magro del tamaño de tu mano: vacío desgrasado, entraña, lomo, colita o pollo. Achuras y chorizo: uno, compartido.', sideOn: 'Ensalada completa + 1 papa o batata al rescoldo (o 1 pan).', sideOff: 'Ensalada completa o verduras grilladas. Sin pan ni papas.', drink: 'Agua o soda. Máximo 1 copa de vino o 1 cerveza.', avoid: 'Picadas largas de fiambre, pan con chimichurri en cantidad y repetir carne.' },
+    { id: 'pizza', icon: '🍕', label: 'Pizza / Empanadas', main: '2-3 porciones de pizza (mejor muzza o napolitana) o 3 empanadas de carne / pollo al horno.', sideOn: 'Ensalada de hojas antes de empezar para llegar con menos hambre.', sideOff: 'Ensalada grande primero y quedate en 2 porciones o 2 empanadas.', drink: 'Agua o gaseosa cero. Alcohol: 1 vaso, no más.', avoid: 'Fugazzeta rellena, empanadas fritas y las porciones extra «porque quedaron».' },
+    { id: 'burger', icon: '🍔', label: 'Hamburguesería', main: 'Hamburguesa simple o doble de carne, con lechuga y tomate. Queso: una feta.', sideOn: 'Papas para compartir o media porción.', sideOff: 'Cambiá las papas por ensalada. Si el pan es gigante, dejá la mitad.', drink: 'Agua o gaseosa cero.', avoid: 'Triple con panceta y cheddar extra, papas con cheddar, salsas en cantidad y milkshakes.' },
+    { id: 'sushi', icon: '🍣', label: 'Sushi / Pastas', main: 'Sushi: 12-15 piezas priorizando sashimi y niguiris. Pastas: 1 plato de fideos o ñoquis con salsa roja (filetto, bolognesa).', sideOn: 'Ensalada o sopa miso. Pasta en porción normal, no fuente.', sideOff: 'Más sashimi y menos arroz. Pasta: media porción + ensalada.', drink: 'Agua, soda o té verde.', avoid: 'Rolls tempura / philadelphia en cantidad, salsas cremosas (4 quesos, crema) y pan con manteca.' },
+    { id: 'cafe', icon: '☕', label: 'Café / Brunch', main: 'Tostado de jamón y queso, huevos revueltos con tostadas o yogur con granola y fruta.', sideOn: 'Fruta o jugo exprimido chico.', sideOff: 'Fruta. Una tostada en vez de dos.', drink: 'Café o latte sin azúcar (o con edulcorante).', avoid: 'Medialunas en serie, facturas, alfajores y licuados con helado.' },
+  ];
 
   // ---------- Manual y glosario táctico ----------
   var GUIDE = [
@@ -904,6 +977,10 @@ body.standalone .dock{display:none}
       h += '<div class="items">';
       x.items.forEach(function (it, idx) {
         var hint = unitHintFor(it.foodId, it.grams);
+        if (it.free) {
+          h += '<div class="item extra free"><span class="g">~' + n0(it.p * 4 + it.c * 4 + it.f * 9) + '<em>kcal</em></span><span class="fd">' + esc(it.food) + '<s class="ia">Bloque balanceado · ' + n0(it.p) + ' P · ' + n0(it.c) + ' C · ' + n0(it.f) + ' G</s></span><button class="rm" data-unfree="' + esc(m.id) + '" aria-label="Deshacer comida libre">✕</button></div>';
+          return;
+        }
         if (it.extra) {
           h += '<div class="item extra"><span class="g">' + n0(it.grams) + ' g</span><span class="fd">' + esc(it.food) + '<s class="ia">Agregado por análisis IA · ' + n0(it.p) + ' P · ' + n0(it.c) + ' C · ' + n0(it.f) + ' G</s></span><button class="rm" data-rmextra="' + esc(m.id) + '|' + esc(it.id) + '" aria-label="Quitar">✕</button></div>';
           return;
@@ -967,7 +1044,8 @@ body.standalone .dock{display:none}
     if (!file) return;
     var url = URL.createObjectURL(file), img = new Image();
     img.onload = function () {
-      var k = Math.min(1, 1280 / Math.max(img.naturalWidth, img.naturalHeight)), c = document.createElement('canvas');
+      // Compresión client-side: máx. 1024 px y JPEG 0,75 → de ~8 MB a < 250 KB (respuesta de Gemini en 2-4 s).
+      var k = Math.min(1, 1024 / Math.max(img.naturalWidth, img.naturalHeight)), c = document.createElement('canvas');
       c.width = Math.round(img.naturalWidth * k); c.height = Math.round(img.naturalHeight * k);
       c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
       URL.revokeObjectURL(url);
@@ -976,7 +1054,7 @@ body.standalone .dock{display:none}
         S.photo = { blob: blob, url: URL.createObjectURL(blob) };
         S.scan = null; S.scanErr = null; S.scanBusy = false;
         S.sheet = null; S.panel = 'photo'; renderSheet();
-      }, 'image/jpeg', 0.82);
+      }, 'image/jpeg', 0.75);
     };
     img.onerror = function () { toast('No se pudo leer la foto'); };
     img.src = url;
@@ -991,6 +1069,8 @@ body.standalone .dock{display:none}
 
   // ---------- Análisis de foto con IA en el dispositivo (Gemini, clave propia del atleta) ----------
   var GEMINI_CHAIN = ['gemini-3.5-flash-lite', 'gemini-3.5-flash'];
+  var SCAN_TIMEOUT_MS = 12000;
+  var SLOW_MSG = 'Conexión lenta. Reintentar o enviar foto al Coach por WhatsApp';
 
   function blobToB64(blob) {
     return new Promise(function (res, rej) {
@@ -1005,11 +1085,15 @@ body.standalone .dock{display:none}
     var model = GEMINI_CHAIN[i];
     S.scanBusy = i === 0 ? (S.scanTab === 'label' ? 'LEYENDO TABLA NUTRICIONAL · ' : 'ANALIZANDO PLATO · ') + model : '[ ! ] CAMBIANDO A MODELO DE RESPALDO (' + model + ')...';
     renderSheet();
+    var ctl = typeof AbortController === 'function' ? new AbortController() : null;
+    var timer = setTimeout(function () { if (ctl) ctl.abort(); }, SCAN_TIMEOUT_MS);
     return fetch('https://generativelanguage.googleapis.com/v1beta/models/' + model + ':generateContent?key=' + encodeURIComponent(key), {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(body),
+      signal: ctl ? ctl.signal : undefined,
     }).then(function (res) {
+      clearTimeout(timer);
       return res.json().catch(function () { return {}; }).then(function (data) {
         if (res.ok) {
           var parts = (data.candidates && data.candidates[0] && data.candidates[0].content && data.candidates[0].content.parts) || [];
@@ -1023,6 +1107,10 @@ body.standalone .dock{display:none}
         if (res.status === 400 && /api key|API_KEY/i.test(msg)) msg = 'La API Key no es válida. Revisala en [ ⚙ CONFIGURAR API KEY GEMINI ].';
         throw new Error(msg);
       });
+    }, function (err) {
+      clearTimeout(timer);
+      if (err && err.name === 'AbortError') { var e = new Error(SLOW_MSG); e.slow = true; throw e; }
+      throw err;
     });
   }
 
@@ -1039,7 +1127,7 @@ body.standalone .dock{display:none}
   function analyzePhoto() {
     var key = getKey();
     if (!key || !S.photo || S.scanBusy) return;
-    S.scan = null; S.scanErr = null;
+    S.scan = null; S.scanErr = null; S.scanErrKind = '';
     var asLabel = S.scanTab === 'label';
     blobToB64(S.photo.blob)
       .then(function (b64) {
@@ -1060,12 +1148,17 @@ body.standalone .dock{display:none}
         var sc = num(json.score, NaN);
         S.scan = { dishName: String(json.dishName || 'Plato analizado'), items: items, score: isFinite(sc) ? Math.round(Math.max(0, Math.min(100, sc))) : localScore(items), reason: json.scoreReason || '', tips: (json.tips || []).slice(0, 3) };
       })
-      .catch(function (err) { S.scanErr = (err && err.message) || String(err); })
+      .catch(function (err) { S.scanErr = (err && err.message) || String(err); S.scanErrKind = err && err.slow ? 'slow' : err && err.plate ? 'plate' : ''; })
       .then(function () { S.scanBusy = false; renderSheet(); });
   }
 
   // Tabla nutricional → valores por 100 g (de la columna por porción si es lo único legible).
   function readLabel(json) {
+    if (json && (json.isLabel === false || json.looksLike === 'plate')) {
+      var pe = new Error('Detectamos un plato preparado. Cambiá a la pestaña [ PLATO DE COMIDA ] para analizar sus porciones y macros');
+      pe.plate = true;
+      throw pe;
+    }
     var serving = Math.max(1, num(json.servingG, 100));
     var per = json.per100 || {};
     var ps = json.perServing || {};
@@ -1111,10 +1204,27 @@ body.standalone .dock{display:none}
 
   // ---------- Eventos ----------
   document.addEventListener('click', function (e) {
-    var el = e.target.closest('[data-mode],[data-check],[data-swap],[data-pick],[data-itab],[data-panel],[data-cup],[data-water],[data-shopcheck],[data-copyshop],[data-shopreset],[data-photo],[data-aicfg],[data-tl],[data-close],[data-rmextra],[data-day],[data-dir],[data-scantab],[data-portion],#sheet-bg,#install,#reset');
+    var el = e.target.closest('[data-mode],[data-check],[data-swap],[data-pick],[data-itab],[data-panel],[data-cup],[data-water],[data-shopcheck],[data-copyshop],[data-shopreset],[data-photo],[data-aicfg],[data-tl],[data-close],[data-rmextra],[data-day],[data-dir],[data-scantab],[data-portion],[data-scene],[data-imputar],[data-unfree],[data-washop],#sheet-bg,#install,#reset');
     if (!el) return;
     var ds = el.dataset;
     if (ds.close) return closeSheet();
+    if (ds.scene) { S.outScene = ds.scene; S.outMeal = ''; haptic(); return renderSheet(); }
+    if (ds.imputar) {
+      var om = (($('#out-meal') || {}).value) || S.outMeal;
+      if (!om) return;
+      S.free[om] = S.outScene || 'salida';
+      S.checks[om] = true;
+      store.set('free:' + S.date, S.free);
+      store.set('checks:' + S.date, S.checks);
+      S.panel = null; haptic(); render();
+      return toast('Comida libre controlada imputada · telemetría actualizada');
+    }
+    if (ds.unfree) {
+      delete S.free[ds.unfree];
+      store.set('free:' + S.date, S.free);
+      return render();
+    }
+    if (ds.washop) return window.open('https://wa.me/?text=' + encodeURIComponent(shopText(shoppingList())), '_blank');
     if (ds.tl) { S.tlOpen = !S.tlOpen; store.set('tlOpen', S.tlOpen); haptic(); return render(); }
     if (ds.dir) { S.dirOpen = !S.dirOpen; return render(); }
     if (ds.day !== undefined) {
@@ -1123,7 +1233,11 @@ body.standalone .dock{display:none}
       haptic();
       return render();
     }
-    if (ds.scantab) { S.scanTab = ds.scantab; S.scan = null; S.scanErr = null; return renderSheet(); }
+    if (ds.scantab) {
+      S.scanTab = ds.scantab; S.scan = null; S.scanErr = null; S.scanErrKind = '';
+      if (ds.autoscan) return analyzePhoto();
+      return renderSheet();
+    }
     if (ds.portion) { S.portions = Math.max(0.5, Math.min(10, S.portions + +ds.portion)); return renderSheet(); }
     if (ds.rmextra) {
       var q = ds.rmextra.split('|');
@@ -1186,7 +1300,9 @@ body.standalone .dock{display:none}
     } else if (el.id === 'reset') {
       if (!confirm('¿Reiniciar el checklist y la hidratación de este día?')) return;
       S.checks = {};
+      S.free = {};
       store.set('checks:' + S.date, S.checks);
+      store.set('free:' + S.date, S.free);
       setWater(0);
       toast('Checklist e hidratación del día reiniciados');
     }
@@ -1196,6 +1312,7 @@ body.standalone .dock{display:none}
     if (e.target.id === 'ph-note') S.phNote = e.target.value;
   });
   document.addEventListener('change', function (e) {
+    if (e.target.id === 'out-meal') S.outMeal = e.target.value;
     if (e.target.id === 'ph-meal') S.phMeal = e.target.value;
   });
 
